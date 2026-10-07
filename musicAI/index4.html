@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEAT AI - Music & Admin System</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #050608;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* 화면 전환을 위한 상단 네비게이션 바 */
+    .top-page-nav {
+      width: 100%;
+      background: #12141C;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-btn {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #9CA3AF;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      background: #E2FF00;
+      color: #0D0E12;
+      border-color: #E2FF00;
+    }
+
+    /* 페이지 컨테이너 스타일 */
+    .page-view {
+      display: none;
+      width: 100%;
+      justify-content: center;
+      padding: 20px 0;
+    }
+    .page-view.active {
+      display: flex;
+    }
+
+    /* 커스텀 토스트 알림 */
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #E2FF00;
+      color: #0D0E12;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(226, 255, 0, 0.3);
+      display: none;
+      z-index: 9999;
+    }
+
+    /* 모달 스타일 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .modal-card {
+      background: #12141C;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 24px;
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .modal-card h3 { color: white; font-size: 18px; }
+    .modal-card input, .modal-card select {
+      width: 100%;
+      padding: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: white;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .btn-submit { background: #E2FF00; color: #0D0E12; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    .btn-cancel { background: rgba(255,255,255,0.1); color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 페이지 이동 네비게이터 -->
+  <div class="top-page-nav">
+    <button class="nav-btn active" onclick="switchPage('page-user')">📱 사용자 앱 (모바일 챗봇)</button>
+    <button class="nav-btn" onclick="switchPage('page-admin1')">💻 관리자 대시보드 (1 페이지)</button>
+    <button class="nav-btn" onclick="switchPage('page-admin2')">💻 관리자 대시보드 (2 페이지)</button>
+  </div>
+
+  <!-- 토스트 알림 메세지 -->
+  <div id="toast">알림 메세지</div>
+
+  <!-- 모달: 새 곡 추가 -->
+  <div class="modal-overlay" id="addTrackModal">
+    <div class="modal-card">
+      <h3>🎵 새 음원 추가</h3>
+      <input type="text" id="newTitle" placeholder="곡명 입력">
+      <input type="text" id="newArtist" placeholder="아티스트 입력">
+      <select id="newGenre">
+        <option value="K-Pop">K-Pop</option>
+        <option value="댄스">댄스</option>
+        <option value="R&B">R&B</option>
+        <option value="발라드">발라드</option>
+      </select>
+      <input type="text" id="newTag" placeholder="태그 (예: #청량한 #여름)">
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">취소</button>
+        <button class="btn-submit" onclick="addNewTrack()">추가하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PAGE 1: 사용자 모바일 챗봇 (index.html 기반)
+  =========================================== -->
+  <div id="page-user" class="page-view active">
+    <div style="width: 402px; min-height: 874px; background: #0D0E12; border-radius: 24px; outline: 1px rgba(255,255,255,0.1) solid; overflow: hidden; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+      <!-- Status Bar -->
+      <div style="align-self: stretch; padding-bottom: 8px; justify-content: center; align-items: flex-start; display: inline-flex">
+        <div style="width: 134px; height: 5px; background: #6B7280; border-radius: 100px; margin-top: 8px;"></div>
+      </div>
+      <div style="align-self: stretch; background: #0D0E12; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex; flex: 1;">
+        <!-- Header -->
+        <div style="align-self: stretch; padding: 12px 20px 8px; justify-content: space-between; align-items: center; display: inline-flex">
+          <div style="color: white; font-size: 14px; font-family: Inter; font-weight: 600;">9:41</div>
+          <div style="justify-content: flex-start; align-items: center; gap: 6px; display: flex">
+            <span style="font-size: 11px; color: #888;">5G 100%</span>
+          </div>
+        </div>
+        <div style="align-self: stretch; padding: 16px 20px; background: #0D0E12; justify-content: space-between; align-items: center; display: inline-flex">
+          <div style="justify-content: flex-start; align-items: center; gap: 8px; display: flex">
+            <div style="width: 10px; height: 10px; background: #E2FF00; border-radius: 9999px"></div>
+            <div><span style="color: white; font-size: 18px; font-family: Gabarito; font-weight: 800;">BEAT </span><span style="color: #E2FF00; font-size: 18px; font-family: Gabarito; font-weight: 800;">AI</span></div>
+          </div>
+          <div style="justify-content: flex-start; align-items: center; gap: 12px; display: flex">
+            <div style="padding: 4px 8px; background: rgba(255, 94, 58, 0.13); border-radius: 100px; outline: 1px #FF5E3A solid; outline-offset: -1px; display: flex">
+              <div style="color: #FF5E3A; font-size: 10px; font-family: Inter; font-weight: 700;">PREMIUM</div>
+            </div>
+            <img style="width: 28px; height: 28px; border-radius: 9999px" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=60" alt="profile"/>
+          </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div style="align-self: stretch; padding: 12px 20px; background: #0D0E12; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 16px; display: flex; flex: 1; overflow-y: auto; max-height: 620px;" id="chatContainer">
+          <div style="align-self: stretch; justify-content: flex-start; align-items: center; gap: 10px; display: inline-flex">
+            <div style="width: 32px; height: 32px; background: #E2FF00; border-radius: 16px; justify-content: center; align-items: center; display: inline-flex">
+              <span style="color:#0D0E12; font-weight:900; font-size:12px;">🎵</span>
+            </div>
+            <div style="color: white; font-size: 16px; font-family: Inter; font-weight: 700;">AI 음악 추천 챗봇</div>
+          </div>
+
+          <!-- User Msg 1 -->
+          <div style="align-self: stretch; flex-direction: column; align-items: flex-end; display: flex">
+            <div style="width: 280px; padding: 12px 14px; background: rgba(255, 94, 58, 0.10); border-radius: 18px; outline: 1px rgba(255, 94, 58, 0.20) solid; display: flex">
+              <div style="color: white; font-size: 14px; line-height: 20px;">청량하고 신나는 여름 K-Pop 추천해줘!</div>
+            </div>
+          </div>
+
+          <!-- AI Response 1 -->
+          <div style="align-self: stretch; flex-direction: column; align-items: flex-start; display: flex">
+            <div style="width: 300px; padding: 12px 14px; background: rgba(255, 255, 255, 0.05); box-shadow: 0px 0px 16px rgba(226, 255, 0, 0.15); border-radius: 18px; outline: 1px #E2FF00 solid; gap: 10px; display: flex; flex-direction: column;">
+              <div style="align-items: center; gap: 8px; display: inline-flex">
+                <div style="width: 24px; height: 24px; background: #E2FF00; border-radius: 12px; justify-content: center; align-items: center; display: inline-flex">🤖</div>
+                <div style="color: #E2FF00; font-size: 12px; font-weight: 700;">추천 AI</div>
+              </div>
+              <div style="color: white; font-size: 14px; line-height: 20px;">NEON CITRUS - NEX-T을 추천합니다! 청량한 베이스와 상큼한 보컬 톤이 여름 드라이브에 딱 맞아요. 매칭률 98%</div>
+              
+              <!-- Music Card -->
+              <div style="padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 14px; outline: 1px rgba(255, 255, 255, 0.08) solid; gap: 8px; display: flex; flex-direction: column;">
+                <div style="align-items: center; gap: 10px; display: inline-flex">
+                  <img style="width: 44px; height: 44px; border-radius: 10px" src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=100&auto=format&fit=crop&q=60" />
+                  <div>
+                    <div style="color: white; font-size: 13px; font-weight: 700;">NEON CITRUS</div>
+                    <div style="color: #9CA3AF; font-size: 12px;">NEX-T (feat. CyberVocal)</div>
+                  </div>
+                </div>
+                <div style="gap: 6px; display: flex; flex-wrap: wrap;">
+                  <button style="padding: 6px 8px; background: rgba(226, 255, 0, 0.08); border-radius: 10px; border: 1px #E2FF00 solid; color: #E2FF00; font-size: 10px; cursor: pointer;" onclick="showToast('⭐ 별점 5점이 추가되었습니다!')">⭐ 별점 추가</button>
+                  <button style="padding: 6px 8px; background: rgba(226, 255, 0, 0.08); border-radius: 10px; border: 1px #E2FF00 solid; color: #E2FF00; font-size: 10px; cursor: pointer;" onclick="promptComment('NEON CITRUS')">💬 코멘트</button>
+                  <button style="padding: 6px 8px; background: rgba(226, 255, 0, 0.08); border-radius: 10px; border: 1px #E2FF00 solid; color: #E2FF00; font-size: 10px; cursor: pointer;" onclick="showToast('📁 관리목록에 추가되었습니다.')">📁 관리칸 추가</button>
+                  <button style="padding: 6px 8px; background: #E2FF00; border-radius: 10px; border: none; color: #0D0E12; font-size: 10px; font-weight: 700; cursor: pointer;" onclick="toggleAudio(this)">▶️ 미리듣기</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Input Bar -->
+        <div style="align-self: stretch; padding: 12px 20px 20px; background: #0D0E12; align-items: center; gap: 12px; display: inline-flex">
+          <input type="text" id="chatInput" style="flex: 1; padding: 12px 14px; background: rgba(255, 255, 255, 0.04); border-radius: 16px; border: 1px rgba(255, 255, 255, 0.08) solid; color: white; font-size: 14px; outline: none;" placeholder="추천받고 싶은 분위기를 입력하세요..." onkeypress="handleKeyPress(event)">
+          <div style="width: 44px; height: 44px; background: #E2FF00; box-shadow: 0px 4px 12px rgba(226, 255, 0, 0.30); border-radius: 22px; justify-content: center; align-items: center; display: inline-flex; cursor: pointer;" onclick="sendChatMessage()">
+            <span style="color:#0D0E12; font-size: 18px; font-weight: bold;">➔</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PAGE 2: 관리자 대시보드 (1페이지 - index1.html 기반)
+  =========================================== -->
+  <div id="page-admin1" class="page-view">
+    <div style="width: 1440px; min-height: 900px; background: #0D0E12; flex-direction: column; display: inline-flex">
+      <!-- Admin Top Header -->
+      <div style="height: 72px; padding: 0 24px; background: #12141C; border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: space-between; align-items: center; display: inline-flex">
+        <div style="align-items: center; gap: 8px; display: flex">
+          <div style="width: 10px; height: 10px; background: #E2FF00; border-radius: 9999px"></div>
+          <span style="color: white; font-size: 20px; font-weight: 800;">BEAT <span style="color: #E2FF00;">AI</span></span>
+          <div style="padding: 2px 6px; background: rgba(226, 255, 0, 0.13); border-radius: 4px; color: #E2FF00; font-size: 10px; font-weight: 700;">ADMIN</div>
+        </div>
+        <div style="align-items: center; gap: 16px; display: flex">
+          <div style="padding: 4px 8px; background: rgba(255, 94, 58, 0.13); border-radius: 100px; border: 1px #FF5E3A solid; color: #FF5E3A; font-size: 10px; font-weight: 700;">PREMIUM PARTNER</div>
+          <div style="color: white; font-size: 14px; font-weight: 600;">👑 관리자 마스터</div>
+        </div>
+      </div>
+
+      <!-- Main Layout -->
+      <div style="flex: 1; display: flex;">
+        <!-- Sidebar -->
+        <div style="width: 240px; padding: 24px; background: #12141C; border-right: 1px rgba(255, 255, 255, 0.08) solid; flex-direction: column; gap: 32px; display: flex">
+          <div style="flex-direction: column; gap: 8px; display: flex">
+            <div style="color: #6B7280; font-size: 12px; font-weight: 700; text-transform: uppercase;">메인 메뉴</div>
+            <div style="flex-direction: column; gap: 4px; display: flex">
+              <div style="padding: 12px 16px; border-radius: 8px; color: #9CA3AF; font-size: 14px; cursor: pointer;" onclick="showToast('대시보드 메인으로 이동합니다.')">📊 대시보드</div>
+              <div style="padding: 12px 16px; background: rgba(226, 255, 0, 0.13); border-radius: 8px; border-left: 3px #E2FF00 solid; color: #E2FF00; font-size: 14px; font-weight: 700;">🎵 음악 관리</div>
+              <div style="padding: 12px 16px; border-radius: 8px; color: #9CA3AF; font-size: 14px; cursor: pointer;" onclick="switchPage('page-admin2')">🏷️ 태그 관리</div>
+              <div style="padding: 12px 16px; border-radius: 8px; color: #9CA3AF; font-size: 14px; cursor: pointer;" onclick="showToast('사용자 관리 페이지 준비 중입니다.')">👥 사용자 관리</div>
+              <div style="padding: 12px 16px; border-radius: 8px; color: #9CA3AF; font-size: 14px; cursor: pointer;" onclick="showToast('추천 이력 메뉴를 선택했습니다.')">📜 추천 이력</div>
+              <div style="padding: 12px 16px; border-radius: 8px; color: #9CA3AF; font-size: 14px; cursor: pointer;" onclick="showToast('설정 페이지입니다.')">⚙️ 설정</div>
+            </div>
+          </div>
+          <div style="padding: 16px; background: rgba(255, 255, 255, 0.04); border-radius: 12px; border: 1px rgba(255, 255, 255, 0.08) solid; flex-direction: column; gap: 8px; display: flex">
+            <div style="align-items: center; gap: 6px; display: flex">
+              <div style="width: 6px; height: 6px; background: #10B981; border-radius: 9999px"></div>
+              <div style="color: white; font-size: 12px; font-weight: 700;">AI 엔진 상태 정상</div>
+            </div>
+            <div style="color: #9CA3AF; font-size: 11px;">최근 데이터 동기화 완료: 오늘 14:32</div>
+          </div>
+        </div>
+
+        <!-- Content Area -->
+        <div style="flex: 1; padding: 32px; flex-direction: column; gap: 24px; display: flex">
+          <div style="justify-content: space-between; align-items: center; display: flex">
+            <div>
+              <div style="color: white; font-size: 24px; font-weight: 800;">음악 데이터 관리 (1페이지)</div>
+              <div style="color: #9CA3AF; font-size: 14px;">BEAT AI 추천 데이터베이스의 음원 트랙과 태그 메타데이터를 관리합니다.</div>
+            </div>
+            <button style="padding: 12px 20px; background: #E2FF00; border-radius: 8px; border: none; color: #0D0E12; font-size: 14px; font-weight: 800; cursor: pointer;" onclick="openModal()">+ 새 곡 추가</button>
+          </div>
+
+          <!-- Table Container -->
+          <div style="padding: 20px; background: #12141C; border-radius: 16px; border: 1px rgba(255, 255, 255, 0.08) solid; flex-direction: column; gap: 20px; display: flex">
+            <!-- Filter Bar -->
+            <div style="justify-content: space-between; align-items: center; display: flex">
+              <div style="gap: 12px; display: flex">
+                <input type="text" id="adminSearchInput" placeholder="곡명 또는 아티스트 검색..." style="width: 260px; height: 40px; padding: 0 16px; background: rgba(255, 255, 255, 0.04); border-radius: 8px; border: 1px rgba(255, 255, 255, 0.08) solid; color: white; font-size: 14px;" onkeyup="filterTable()">
+                <select id="genreSelect" style="height: 40px; padding: 0 16px; background: rgba(255, 255, 255, 0.04); border-radius: 8px; border: 1px rgba(255, 255, 255, 0.08) solid; color: white;" onchange="filterTable()">
+                  <option value="">전체 장르</option>
+                  <option value="K-Pop">K-Pop</option>
+                  <option value="댄스">댄스</option>
+                  <option value="R&B">R&B</option>
+                  <option value="발라드">발라드</option>
+                </select>
+              </div>
+              <div style="color: #9CA3AF; font-size: 14px;" id="totalCountText">총 248곡 중 1-5 표시</div>
+            </div>
+
+            <!-- Table Header -->
+            <div style="padding: 12px 16px; background: #1A1D26; border-radius: 8px 8px 0 0; gap: 16px; display: flex; align-items: center;">
+              <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" style="cursor: pointer;">
+              <div style="width: 50px; color: #9CA3AF; font-size: 13px; font-weight: 700;">아트</div>
+              <div style="flex: 1; color: #9CA3AF; font-size: 13px; font-weight: 700;">곡명</div>
+              <div style="width: 140px; color: #9CA3AF; font-size: 13px; font-weight: 700;">아티스트</div>
+              <div style="width: 100px; color: #9CA3AF; font-size: 13px; font-weight: 700;">장르</div>
+              <div style="width: 160px; color: #9CA3AF; font-size: 13px; font-weight: 700;">태그</div>
+              <div style="width: 80px; color: #9CA3AF; font-size: 13px; font-weight: 700;">매칭률</div>
+              <div style="width: 100px; color: #9CA3AF; font-size: 13px; font-weight: 700;">상태</div>
+              <div style="width: 80px; text-align: center; color: #9CA3AF; font-size: 13px; font-weight: 700;">관리</div>
+            </div>
+
+            <!-- Table Body (Page 1 Tracks) -->
+            <div id="trackTableBody" style="display: flex; flex-direction: column; gap: 4px;">
+              <!-- Dynamic Rows Rendered by JS -->
+            </div>
+
+            <!-- Pagination Bar -->
+            <div style="justify-content: space-between; align-items: center; display: flex; margin-top: 12px;">
+              <div style="color: #6B7280; font-size: 13px;">1-5 / 248 항목</div>
+              <div style="gap: 8px; display: flex">
+                <button class="nav-btn" onclick="switchPage('page-admin1')">이전</button>
+                <button class="nav-btn active" onclick="switchPage('page-admin1')">1</button>
+                <button class="nav-btn" onclick="switchPage('page-admin2')">2</button>
+                <button class="nav-btn" onclick="switchPage('page-admin2')">3</button>
+                <button class="nav-btn" onclick="switchPage('page-admin2')">다음</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Selected Batch Action Bar -->
+          <div style="padding: 14px 24px; background: #1A1D26; box-shadow: 0px 4px 16px rgba(226, 255, 0, 0.15); border-radius: 12px; border: 1px #E2FF00 solid; justify-content: space-between; align-items: center; display: flex">
+            <div style="align-items: center; gap: 12px; display: flex">
+              <div style="width: 8px; height: 8px; background: #E2FF00; border-radius: 9999px"></div>
+              <div style="color: white; font-size: 14px; font-weight: 700;" id="selectedCountText">선택된 항목: 0개</div>
+            </div>
+            <div style="gap: 12px; display: flex">
+              <button style="padding: 8px 14px; border-radius: 6px; border: 1px rgba(255,255,255,0.2) solid; background: transparent; color: white; cursor: pointer;" onclick="batchEdit()">일괄 수정</button>
+              <button style="padding: 8px 14px; background: rgba(255, 94, 58, 0.13); border-radius: 6px; border: 1px #FF5E3A solid; color: #FF5E3A; cursor: pointer;" onclick="batchDelete()">일괄 삭제</button>
+              <button style="padding: 8px 14px; background: rgba(226, 255, 0, 0.13); border-radius: 6px; border: 1px #E2FF00 solid; color: #E2FF00; cursor: pointer;" onclick="exportExcel()">엑셀 내보내기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       PAGE 3: 관리자 대시보드 (2페이지 - index2.html 기반)
+  =========================================== -->
+  <div id="page-admin2" class="page-view">
+    <div style="width: 1440px; min-height: 900px; background: #0D0E12; flex-direction: column; display: inline-flex">
+      <!-- Admin Top Header -->
+      <div style="height: 72px; padding: 0 24px; background: #12141C; border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: space-between; align-items: center; display: inline-flex">
+        <div style="align-items: center; gap: 8px; display: flex">
+          <div style="width: 10px; height: 10px; background: #E2FF00; border-radius: 9999px"></div>
+          <span style="color: white; font-size: 20px; font-weight: 800;">BEAT <span style="color: #E2FF00;">AI</span></span>
+          <div style="padding: 2px 6px; background: rgba(226, 255, 0, 0.13); border-radius: 4px; color: #E2FF00; font-size: 10px; font-weight: 700;">ADMIN PAGE 2</div>
+        </div>
+        <div style="color: white; font-size: 14px; font-weight: 600;">👑 관리자 마스터</div>
+      </div>
+
+      <div style="flex: 1; display: flex;">
+        <!-- Sidebar -->
+        <div style="width: 240px; padding: 24px; background: #12141C; border-right: 1px rgba(255, 255, 255, 0.08) solid; flex-direction: column; gap: 16px; display: flex">
+          <div style="color: #6B7280; font-size: 12px; font-weight: 700;">메인 메뉴</div>
+          <div style="padding: 12px 16px; border-radius: 8px; color: #9CA3AF; cursor: pointer;" onclick="switchPage('page-admin1')">🎵 음악 관리 (Page 1)</div>
+          <div style="padding: 12px 16px; background: rgba(226, 255, 0, 0.13); border-radius: 8px; border-left: 3px #E2FF00 solid; color: #E2FF00; font-weight: 700;">🎵 음악 관리 (Page 2)</div>
+        </div>
+
+        <!-- Content Area -->
+        <div style="flex: 1; padding: 32px; flex-direction: column; gap: 24px; display: flex">
+          <div style="justify-content: space-between; align-items: center; display: flex">
+            <div>
+              <div style="color: white; font-size: 24px; font-weight: 800;">음악 데이터 관리 (2페이지)</div>
+              <div style="color: #9CA3AF; font-size: 14px;">보조 트랙 데이터베이스 및 추가 추천 리스트 목록입니다.</div>
+            </div>
+          </div>
+
+          <!-- Page 2 Track List -->
+          <div style="padding: 20px; background: #12141C; border-radius: 16px; border: 1px rgba(255, 255, 255, 0.08) solid; display: flex; flex-direction: column; gap: 12px;">
+            <div style="padding: 16px; background: rgba(255,255,255,0.03); border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="color: white; font-weight: bold;">Cyber Rain - Tears AI</div>
+                <div style="color: #9CA3AF; font-size: 12px;">발라드 | #rain #비오는날</div>
+              </div>
+              <button style="padding: 6px 12px; background: #10B981; color: white; border: none; border-radius: 4px; font-size: 12px;">활성화됨</button>
+            </div>
+            <div style="padding: 16px; background: rgba(255,255,255,0.03); border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="color: white; font-weight: bold;">Electric Night - City Lights</div>
+                <div style="color: #9CA3AF; font-size: 12px;">Synthwave | #야경 #드라이브</div>
+              </div>
+              <button style="padding: 6px 12px; background: #FF5E3A; color: white; border: none; border-radius: 4px; font-size: 12px;">비활성화됨</button>
+            </div>
+
+            <!-- Page 2 Pagination -->
+            <div style="justify-content: flex-end; align-items: center; display: flex; gap: 8px; margin-top: 16px;">
+              <button class="nav-btn" onclick="switchPage('page-admin1')">이전</button>
+              <button class="nav-btn" onclick="switchPage('page-admin1')">1</button>
+              <button class="nav-btn active" onclick="switchPage('page-admin2')">2</button>
+              <button class="nav-btn" onclick="switchPage('page-admin2')">3</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       JAVASCRIPT FUNCTIONALITY
+  =========================================== -->
+  <script>
+    /* ----------------------------------------------------
+       1. Initial Data (음원 데이터 관리 데이터셋)
+    ---------------------------------------------------- */
+    let tracks = [
+      { id: 1, title: 'Lemon Sour', artist: 'NEX-T', genre: 'K-Pop', tags: ['#citrus', '#청량한'], match: '98%', date: '2024.05.12', active: true, img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=100&auto=format&fit=crop&q=60' },
+      { id: 2, title: 'Neon Wave', artist: 'Y2K Cyber', genre: '댄스', tags: ['#cyber', '#신나는'], match: '94%', date: '2024.05.10', active: true, img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100&auto=format&fit=crop&q=60' },
+      { id: 3, title: 'Tangerine Sunset', artist: 'K-Vibe AI', genre: 'R&B', tags: ['#몽환적인', '#sunset'], match: '91%', date: '2024.05.08', active: true, img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&auto=format&fit=crop&q=60' },
+      { id: 4, title: 'Summer Soda', artist: 'Blue Pearl', genre: 'K-Pop', tags: ['#청량한', '#여름'], match: '87%', date: '2024.05.05', active: false, img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=100&auto=format&fit=crop&q=60' },
+      { id: 5, title: 'Next Stage', artist: 'AESPA (AI)', genre: '댄스', tags: ['#futuristic', '#힙합'], match: '85%', date: '2024.04.30', active: true, img: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=100&auto=format&fit=crop&q=60' }
+    ];
+
+    let isPlayingAudio = false;
+
+    // 페이지 로드 시 테이블 렌더링
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTable(tracks);
+    });
+
+    /* ----------------------------------------------------
+       2. Page Switcher (화면 전환 기능)
+    ---------------------------------------------------- */
+    function switchPage(pageId) {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.top-page-nav .nav-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(pageId).classList.add('active');
+
+      if (pageId === 'page-user') {
+        document.querySelectorAll('.top-page-nav .nav-btn')[0].classList.add('active');
+      } else if (pageId === 'page-admin1') {
+        document.querySelectorAll('.top-page-nav .nav-btn')[1].classList.add('active');
+      } else if (pageId === 'page-admin2') {
+        document.querySelectorAll('.top-page-nav .nav-btn')[2].classList.add('active');
+      }
+    }
+
+    /* ----------------------------------------------------
+       3. Toast Notification
+    ---------------------------------------------------- */
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2500);
+    }
+
+    /* ----------------------------------------------------
+       4. Mobile AI Chat Features (챗봇 기능)
+    ---------------------------------------------------- */
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') sendChatMessage();
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatContainer = document.getElementById('chatContainer');
+
+      // Add User Message
+      const userMsgHTML = `
+        <div style="align-self: stretch; flex-direction: column; align-items: flex-end; display: flex">
+          <div style="width: 280px; padding: 12px 14px; background: rgba(255, 94, 58, 0.10); border-radius: 18px; outline: 1px rgba(255, 94, 58, 0.20) solid; display: flex">
+            <div style="color: white; font-size: 14px; line-height: 20px;">${text}</div>
+          </div>
+        </div>
+      `;
+      chatContainer.insertAdjacentHTML('beforeend', userMsgHTML);
+      input.value = '';
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      // AI Response Simulation
+      setTimeout(() => {
+        const aiMsgHTML = `
+          <div style="align-self: stretch; flex-direction: column; align-items: flex-start; display: flex">
+            <div style="width: 300px; padding: 12px 14px; background: rgba(255, 255, 255, 0.05); box-shadow: 0px 0px 16px rgba(226, 255, 0, 0.15); border-radius: 18px; outline: 1px #E2FF00 solid; gap: 10px; display: flex; flex-direction: column;">
+              <div style="align-items: center; gap: 8px; display: inline-flex">
+                <div style="width: 24px; height: 24px; background: #E2FF00; border-radius: 12px; justify-content: center; align-items: center; display: inline-flex">🤖</div>
+                <div style="color: #E2FF00; font-size: 12px; font-weight: 700;">추천 AI</div>
+              </div>
+              <div style="color: white; font-size: 14px; line-height: 20px;">'${text}' 분위기에 맞춘 <b>Lemon Drop - PRISM</b> 곡을 찾았어요! 매칭률 96%</div>
+              <div style="padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 14px; outline: 1px rgba(255, 255, 255, 0.08) solid; gap: 8px; display: flex; flex-direction: column;">
+                <div style="align-items: center; gap: 10px; display: inline-flex">
+                  <img style="width: 44px; height: 44px; border-radius: 10px" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&auto=format&fit=crop&q=60" />
+                  <div>
+                    <div style="color: white; font-size: 13px; font-weight: 700;">Lemon Drop</div>
+                    <div style="color: #9CA3AF; font-size: 12px;">PRISM</div>
+                  </div>
+                </div>
+                <div style="gap: 6px; display: flex; flex-wrap: wrap;">
+                  <button style="padding: 6px 8px; background: rgba(226, 255, 0, 0.08); border-radius: 10px; border: 1px #E2FF00 solid; color: #E2FF00; font-size: 10px; cursor: pointer;" onclick="showToast('⭐ 별점 추가 완료')">⭐ 별점 추가</button>
+                  <button style="padding: 6px 8px; background: rgba(226, 255, 0, 0.08); border-radius: 10px; border: 1px #E2FF00 solid; color: #E2FF00; font-size: 10px; cursor: pointer;" onclick="promptComment('Lemon Drop')">💬 코멘트</button>
+                  <button style="padding: 6px 8px; background: rgba(226, 255, 0, 0.08); border-radius: 10px; border: 1px #E2FF00 solid; color: #E2FF00; font-size: 10px; cursor: pointer;" onclick="showToast('📁 목록 저장 완료')">📁 관리칸 추가</button>
+                  <button style="padding: 6px 8px; background: #E2FF00; border-radius: 10px; border: none; color: #0D0E12; font-size: 10px; font-weight: 700; cursor: pointer;" onclick="toggleAudio(this)">▶️ 미리듣기</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        chatContainer.insertAdjacentHTML('beforeend', aiMsgHTML);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      }, 700);
+    }
+
+    function toggleAudio(btn) {
+      if (isPlayingAudio) {
+        isPlayingAudio = false;
+        btn.innerText = '▶️ 미리듣기';
+        showToast('⏸️ 오디오 재생을 정지했습니다.');
+      } else {
+        isPlayingAudio = true;
+        btn.innerText = '⏸️ 재생 중...';
+        showToast('🎵 30초 미리듣기를 재생합니다.');
+      }
+    }
+
+    function promptComment(songName) {
+      const comment = prompt(`[${songName}] 곡에 남길 코멘트를 입력하세요:`);
+      if (comment) showToast(`💬 코멘트 등록 완료: "${comment}"`);
+    }
+
+    /* ----------------------------------------------------
+       5. Admin Dashboard Table Operations (테이블 연동)
+    ---------------------------------------------------- */
+    function renderTable(data) {
+      const tbody = document.getElementById('trackTableBody');
+      tbody.innerHTML = '';
+
+      if (data.length === 0) {
+        tbody.innerHTML = `<div style="padding: 20px; text-align: center; color: #9CA3AF;">검색 결과가 없습니다.</div>`;
+        return;
+      }
+
+      data.forEach(item => {
+        const row = document.createElement('div');
+        row.style.cssText = "padding: 12px 16px; background: rgba(226, 255, 0, 0.03); border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex;";
+        row.innerHTML = `
+          <input type="checkbox" class="rowCheckbox" value="${item.id}" onchange="updateSelectedCount()" style="cursor: pointer;">
+          <img style="width: 40px; height: 40px; border-radius: 6px" src="${item.img}" />
+          <div style="flex: 1; color: white; font-size: 14px; font-weight: 700;">${item.title}</div>
+          <div style="width: 140px; color: white; font-size: 14px;">${item.artist}</div>
+          <div style="width: 100px; color: #9CA3AF; font-size: 14px;">${item.genre}</div>
+          <div style="width: 160px; display: flex; gap: 4px; flex-wrap: wrap;">
+            ${item.tags.map(t => `<span style="padding: 2px 6px; background: rgba(255,255,255,0.04); border-radius: 4px; color: #E2FF00; font-size: 11px;">${t}</span>`).join('')}
+          </div>
+          <div style="width: 80px; color: #FF5E3A; font-weight: 600; font-size: 14px;">${item.match}</div>
+          <div style="width: 100px;">
+            <button onclick="toggleActiveStatus(${item.id})" style="padding: 4px 8px; border-radius: 4px; border: 1px ${item.active ? '#10B981' : '#FF5E3A'} solid; background: ${item.active ? 'rgba(16, 185, 129, 0.10)' : 'rgba(255, 94, 58, 0.10)'}; color: ${item.active ? '#10B981' : '#FF5E3A'}; font-size: 11px; font-weight: 700; cursor: pointer;">
+              ${item.active ? '활성화' : '비활성화'}
+            </button>
+          </div>
+          <div style="width: 80px; display: flex; justify-content: center; gap: 12px;">
+            <span style="cursor: pointer;" onclick="editTrack(${item.id})">✏️</span>
+            <span style="cursor: pointer;" onclick="deleteTrack(${item.id})">🗑️</span>
+          </div>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('totalCountText').innerText = `총 ${tracks.length}곡 중 1-${data.length} 표시`;
+      updateSelectedCount();
+    }
+
+    function toggleSelectAll(master) {
+      document.querySelectorAll('.rowCheckbox').forEach(cb => cb.checked = master.checked);
+      updateSelectedCount();
+    }
+
+    function updateSelectedCount() {
+      const checkedCount = document.querySelectorAll('.rowCheckbox:checked').length;
+      document.getElementById('selectedCountText').innerText = `선택된 항목: ${checkedCount}개`;
+    }
+
+    function filterTable() {
+      const searchVal = document.getElementById('adminSearchInput').value.toLowerCase();
+      const genreVal = document.getElementById('genreSelect').value;
+
+      const filtered = tracks.filter(t => {
+        const matchesSearch = t.title.toLowerCase().includes(searchVal) || t.artist.toLowerCase().includes(searchVal);
+        const matchesGenre = genreVal === '' || t.genre === genreVal;
+        return matchesSearch && matchesGenre;
+      });
+
+      renderTable(filtered);
+    }
+
+    function toggleActiveStatus(id) {
+      const target = tracks.find(t => t.id === id);
+      if (target) {
+        target.active = !target.active;
+        showToast(`'${target.title}' 곡이 ${target.active ? '활성화' : '비활성화'} 되었습니다.`);
+        filterTable();
+      }
+    }
+
+    function deleteTrack(id) {
+      if (confirm('정말 삭제하시겠습니까?')) {
+        tracks = tracks.filter(t => t.id !== id);
+        showToast('음원이 삭제되었습니다.');
+        filterTable();
+      }
+    }
+
+    function editTrack(id) {
+      const target = tracks.find(t => t.id === id);
+      const newTitle = prompt('수정할 곡명을 입력하세요:', target.title);
+      if (newTitle) {
+        target.title = newTitle;
+        showToast('곡 정보가 수정되었습니다.');
+        filterTable();
+      }
+    }
+
+    /* ----------------------------------------------------
+       6. Modal Operations (모달 기능)
+    ---------------------------------------------------- */
+    function openModal() { document.getElementById('addTrackModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('addTrackModal').style.display = 'none'; }
+
+    function addNewTrack() {
+      const title = document.getElementById('newTitle').value.trim();
+      const artist = document.getElementById('newArtist').value.trim();
+      const genre = document.getElementById('newGenre').value;
+      const tagStr = document.getElementById('newTag').value.trim();
+
+      if (!title || !artist) {
+        alert('곡명과 아티스트를 모두 입력해주세요.');
+        return;
+      }
+
+      const newObj = {
+        id: Date.now(),
+        title: title,
+        artist: artist,
+        genre: genre,
+        tags: tagStr ? tagStr.split(' ') : ['#NEW'],
+        match: '90%',
+        date: new Date().toISOString().slice(0, 10).replace(/-/g, '.'),
+        active: true,
+        img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100&auto=format&fit=crop&q=60'
+      };
+
+      tracks.unshift(newObj);
+      showToast('새 음원이 성공적으로 등록되었습니다.');
+      closeModal();
+      filterTable();
+
+      // Clear Modal Fields
+      document.getElementById('newTitle').value = '';
+      document.getElementById('newArtist').value = '';
+    }
+
+    /* ----------------------------------------------------
+       7. Batch Action Functions (일괄 처리 기능)
+    ---------------------------------------------------- */
+    function batchDelete() {
+      const checkedBoxes = document.querySelectorAll('.rowCheckbox:checked');
+      if (checkedBoxes.length === 0) {
+        alert('선택된 항목이 없습니다.');
+        return;
+      }
+      if (confirm(`선택한 ${checkedBoxes.length}개 항목을 일괄 삭제하시겠습니까?`)) {
+        const idsToDelete = Array.from(checkedBoxes).map(cb => Number(cb.value));
+        tracks = tracks.filter(t => !idsToDelete.includes(t.id));
+        showToast(`${checkedBoxes.length}개 항목이 삭제되었습니다.`);
+        filterTable();
+      }
+    }
+
+    function batchEdit() {
+      const checkedBoxes = document.querySelectorAll('.rowCheckbox:checked');
+      if (checkedBoxes.length === 0) {
+        alert('선택된 항목이 없습니다.');
+        return;
+      }
+      showToast(`${checkedBoxes.length}개 항목 일괄 수정 레이어를 호출합니다.`);
+    }
+
+    function exportExcel() {
+      showToast('📊 선택된 음원 데이터가 엑셀(CSV) 파일로 내보내졌습니다.');
+    }
+  </script>
+</body>
+</html>
