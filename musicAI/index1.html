@@ -1,475 +1,1909 @@
-<div style="width: 1440px; height: 1024px; background: #0D0E12; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-  <div style="align-self: stretch; height: 72px; padding-left: 24px; padding-right: 24px; background: #12141C; border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: space-between; align-items: center; display: inline-flex">
-    <div style="justify-content: flex-start; align-items: center; gap: 8px; display: flex">
-      <div style="width: 10px; height: 10px; background: #E2FF00; border-radius: 9999px"></div>
-      <div><span style="color: white; font-size: 20px; font-family: Gabarito; font-weight: 800; word-wrap: break-word">BEAT </span><span style="color: #E2FF00; font-size: 20px; font-family: Gabarito; font-weight: 800; word-wrap: break-word">AI</span></div>
-      <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(226, 255, 0, 0.13); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-        <div style="color: #E2FF00; font-size: 10px; font-family: Inter; font-weight: 700; word-wrap: break-word">ADMIN</div>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEAT AI Platform - Full Activated Admin & Mobile Chatbot</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#060709',
+              card: '#12141C',
+              cardLight: '#1A1D26',
+              cardHover: '#232733',
+              neon: '#E2FF00',
+              accent: '#FF5E3A',
+              muted: '#9CA3AF',
+              subtle: '#6B7280',
+              success: '#10B981',
+              warning: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Gabarito', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Custom CSS Animations & Elements -->
+  <style>
+    body {
+      background-color: #060709;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0D0E12;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1A1D26;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #E2FF00;
+    }
+
+    .glow-neon {
+      box-shadow: 0px 0px 22px rgba(226, 255, 0, 0.25);
+    }
+    .glow-neon-sm {
+      box-shadow: 0px 0px 10px rgba(226, 255, 0, 0.18);
+    }
+    .glow-accent {
+      box-shadow: 0px 0px 16px rgba(255, 94, 58, 0.25);
+    }
+
+    @keyframes barPulse {
+      0%, 100% { height: 4px; }
+      50% { height: 20px; }
+    }
+    .eq-bar {
+      width: 3px;
+      background-color: #E2FF00;
+      border-radius: 2px;
+      display: inline-block;
+      animation: barPulse 0.8s infinite ease-in-out;
+    }
+    .eq-bar:nth-child(1) { animation-delay: 0.1s; }
+    .eq-bar:nth-child(2) { animation-delay: 0.3s; }
+    .eq-bar:nth-child(3) { animation-delay: 0.2s; }
+    .eq-bar:nth-child(4) { animation-delay: 0.4s; }
+
+    input[type=range] {
+      accent-color: #E2FF00;
+    }
+
+    .phone-shadow {
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 35px rgba(226, 255, 0, 0.12);
+    }
+
+    .fade-enter {
+      animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- Top Navigation Header -->
+  <header class="bg-brand-card border-b border-white/10 px-4 md:px-6 py-3 sticky top-0 z-40 flex flex-wrap items-center justify-between gap-4">
+    <!-- Brand Title & Live Engine Status -->
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-3 h-3 bg-brand-neon rounded-full animate-pulse"></div>
+        <div class="font-display font-extrabold text-xl text-white tracking-wide">
+          BEAT <span class="text-brand-neon">AI</span> <span class="text-xs font-sans text-brand-muted font-semibold ml-1">PLATFORM v2.5 FULL</span>
+        </div>
+      </div>
+
+      <div class="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full bg-brand-success/10 border border-brand-success/30 text-brand-success text-xs font-semibold">
+        <span class="w-2 h-2 rounded-full bg-brand-success animate-ping"></span>
+        <span>AI Engine Active (99.9%)</span>
       </div>
     </div>
-    <div style="justify-content: flex-start; align-items: center; gap: 16px; display: flex">
-      <div style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; background: rgba(255, 94, 58, 0.13); border-radius: 100px; outline: 1px #FF5E3A solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-        <div style="color: #FF5E3A; font-size: 10px; font-family: Inter; font-weight: 700; word-wrap: break-word">PREMIUM PARTNER</div>
+
+    <!-- View Mode Switcher Controls -->
+    <div class="flex items-center bg-black/50 p-1 rounded-xl border border-white/10 shadow-inner">
+      <button id="viewBtnAdmin" onclick="switchView('admin')" class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-black bg-brand-neon shadow">
+        <i class="fa-solid fa-gauge-high"></i>
+        <span>어드민 대시보드</span>
+      </button>
+      <button id="viewBtnMobile" onclick="switchView('mobile')" class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-brand-muted hover:text-white">
+        <i class="fa-solid fa-mobile-screen"></i>
+        <span>모바일 AI 챗봇</span>
+      </button>
+      <button id="viewBtnSplit" onclick="switchView('split')" class="hidden lg:flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-brand-muted hover:text-white">
+        <i class="fa-solid fa-columns"></i>
+        <span>분할 화면</span>
+      </button>
+    </div>
+
+    <!-- Header Actions (Notifications & Profile) -->
+    <div class="flex items-center gap-3 relative">
+      <!-- Notification Bell Drawer Button -->
+      <div class="relative">
+        <button onclick="toggleNotifications()" class="relative p-2 rounded-xl bg-white/5 hover:bg-white/10 text-brand-muted hover:text-white border border-white/10 transition">
+          <i class="fa-solid fa-bell text-sm"></i>
+          <span id="unreadBadge" class="absolute -top-1 -right-1 w-4 h-4 bg-brand-accent text-white text-[9px] font-extrabold rounded-full flex items-center justify-center">3</span>
+        </button>
+
+        <!-- Notification Dropdown Menu -->
+        <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-80 md:w-96 bg-brand-card border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden fade-enter">
+          <div class="p-3.5 border-b border-white/10 flex items-center justify-between bg-brand-cardLight">
+            <span class="text-xs font-bold text-white flex items-center gap-1.5">
+              <i class="fa-solid fa-bell text-brand-neon"></i> 실시간 알림 센터
+            </span>
+            <div class="flex items-center gap-1">
+              <button onclick="filterNotifications('all')" class="text-[10px] px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-white font-semibold">전체</button>
+              <button onclick="filterNotifications('unread')" class="text-[10px] px-2 py-0.5 rounded bg-brand-neon/20 text-brand-neon font-semibold">미읽음</button>
+            </div>
+          </div>
+          <div id="notificationList" class="divide-y divide-white/5 max-h-72 overflow-y-auto text-xs">
+            <!-- Dynamic Notifications Injected -->
+          </div>
+          <div class="p-2.5 text-center bg-black/40 border-t border-white/10 flex justify-between items-center px-4">
+            <button onclick="markAllNotificationsRead()" class="text-[11px] text-brand-neon hover:underline font-bold">모두 읽음</button>
+            <button onclick="clearAllNotifications()" class="text-[11px] text-brand-muted hover:text-red-400 transition">알림 초기화</button>
+          </div>
+        </div>
       </div>
-      <div style="width: 16px; height: 0px; transform: rotate(90deg); transform-origin: top left; border: 1px rgba(255, 255, 255, 0.08) solid"></div>
-      <div style="justify-content: flex-start; align-items: center; gap: 8px; display: flex">
-        <img style="width: 32px; height: 32px; border-radius: 9999px" src="https://placehold.co/32x32" />
-        <div style="color: white; font-size: 14px; font-family: Inter; font-weight: 600; word-wrap: break-word">관리자 마스터</div>
+
+      <span class="w-px h-5 bg-white/10 hidden sm:block"></span>
+
+      <!-- Admin Profile Button -->
+      <button onclick="openProfileModal()" class="flex items-center gap-2.5 p-1 rounded-xl hover:bg-white/5 transition border border-transparent hover:border-white/10">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Master Admin" class="w-8 h-8 rounded-full object-cover ring-2 ring-brand-neon/50">
+        <div class="hidden sm:block text-left">
+          <div class="text-xs font-bold text-white leading-tight">마스터 관리자</div>
+          <div class="text-[10px] text-brand-neon font-medium">BEAT AI SuperAdmin</div>
+        </div>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Platform Layout Container -->
+  <main class="flex-1 p-3 md:p-6 flex justify-center items-start overflow-y-auto max-w-[1800px] w-full mx-auto">
+
+    <!-- VIEW 1: Admin Dashboard View -->
+    <section id="adminDashboardContainer" class="w-full flex flex-col transition-all duration-300">
+      
+      <div class="w-full bg-brand-card rounded-2xl border border-white/10 overflow-hidden flex flex-col lg:flex-row min-h-[840px] shadow-2xl">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="w-full lg:w-64 bg-brand-black/70 border-r border-white/10 p-5 flex flex-col justify-between shrink-0 space-y-6">
+          <div class="space-y-6">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold text-brand-muted uppercase tracking-wider">NAV MENU</span>
+              <span class="text-[10px] bg-brand-neon/20 text-brand-neon font-bold px-2 py-0.5 rounded border border-brand-neon/30">ONLINE</span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-1.5">
+              <button onclick="switchAdminTab('dashboard')" id="navTabDashboard" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-extrabold text-brand-black bg-brand-neon shadow-lg shadow-brand-neon/10 transition-all">
+                <div class="flex items-center gap-3">
+                  <i class="fa-solid fa-chart-pie w-4 text-center"></i>
+                  <span>대시보드</span>
+                </div>
+                <i class="fa-solid fa-chevron-right text-[10px]"></i>
+              </button>
+
+              <button onclick="switchAdminTab('music')" id="navTabMusic" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-muted hover:text-white hover:bg-white/5 transition-all">
+                <div class="flex items-center gap-3">
+                  <i class="fa-solid fa-music w-4 text-center"></i>
+                  <span>음악 관리</span>
+                </div>
+                <span id="navTrackBadge" class="px-1.5 py-0.2 bg-white/10 text-white rounded text-[10px]">6</span>
+              </button>
+
+              <button onclick="switchAdminTab('tags')" id="navTabTags" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-muted hover:text-white hover:bg-white/5 transition-all">
+                <div class="flex items-center gap-3">
+                  <i class="fa-solid fa-tags w-4 text-center"></i>
+                  <span>태그 관리</span>
+                </div>
+                <span id="navTagBadge" class="px-1.5 py-0.2 bg-white/10 text-white rounded text-[10px]">5</span>
+              </button>
+
+              <button onclick="switchAdminTab('users')" id="navTabUsers" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-muted hover:text-white hover:bg-white/5 transition-all">
+                <div class="flex items-center gap-3">
+                  <i class="fa-solid fa-users w-4 text-center"></i>
+                  <span>사용자 관리</span>
+                </div>
+                <span id="navUserBadge" class="px-1.5 py-0.2 bg-white/10 text-white rounded text-[10px]">4</span>
+              </button>
+
+              <button onclick="switchAdminTab('history')" id="navTabHistory" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-muted hover:text-white hover:bg-white/5 transition-all">
+                <div class="flex items-center gap-3">
+                  <i class="fa-solid fa-clock-rotate-left w-4 text-center"></i>
+                  <span>추천 이력</span>
+                </div>
+              </button>
+
+              <button onclick="switchAdminTab('settings')" id="navTabSettings" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-muted hover:text-white hover:bg-white/5 transition-all">
+                <div class="flex items-center gap-3">
+                  <i class="fa-solid fa-sliders w-4 text-center"></i>
+                  <span>AI 엔진 설정</span>
+                </div>
+              </button>
+            </nav>
+          </div>
+
+          <!-- Quick System Stats Summary -->
+          <div class="p-3.5 bg-brand-cardLight/80 border border-white/10 rounded-xl space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold text-white">
+              <span>서버 메모리</span>
+              <span class="text-brand-neon">42%</span>
+            </div>
+            <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-brand-neon h-full w-[42%]"></div>
+            </div>
+            <div class="text-[10px] text-brand-subtle pt-1 flex items-center justify-between">
+              <span>실시간 Vector DB</span>
+              <span class="text-brand-success font-semibold">정상동작</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Admin Main Body Screens Area -->
+        <div class="flex-1 p-5 md:p-8 space-y-6 overflow-x-auto bg-brand-black/20">
+          
+          <!-- TAB 1: Dashboard Analytics Screen -->
+          <div id="secDashboard" class="space-y-6 fade-enter">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+              <div>
+                <h1 class="text-xl md:text-2xl font-extrabold text-white flex items-center gap-2">
+                  <span>실시간 추천 현황 대시보드</span>
+                </h1>
+                <p class="text-xs text-brand-muted mt-1">AI 모델 매칭 추천 트래픽 및 유저 반응 수치를 기간별로 모니터링합니다.</p>
+              </div>
+
+              <!-- Timeframe Filters -->
+              <div class="flex items-center gap-2 bg-black/40 p-1 rounded-xl border border-white/10">
+                <button onclick="setDashboardPeriod('today')" id="periodBtnToday" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-brand-neon text-brand-black transition">오늘</button>
+                <button onclick="setDashboardPeriod('7d')" id="periodBtn7d" class="px-3 py-1.5 rounded-lg text-xs font-bold text-brand-muted hover:text-white transition">최근 7일</button>
+                <button onclick="setDashboardPeriod('30d')" id="periodBtn30d" class="px-3 py-1.5 rounded-lg text-xs font-bold text-brand-muted hover:text-white transition">30일</button>
+                <button onclick="setDashboardPeriod('all')" id="periodBtnAll" class="px-3 py-1.5 rounded-lg text-xs font-bold text-brand-muted hover:text-white transition">전체</button>
+                <button onclick="refreshDashboardData()" class="ml-1 p-1.5 text-brand-muted hover:text-white transition" title="새로고침">
+                  <i class="fa-solid fa-rotate-right text-xs"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- KPI Metric Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div class="p-4 bg-brand-cardLight rounded-2xl border border-white/10 hover:border-brand-neon/40 transition">
+                <div class="flex items-center justify-between text-brand-muted text-xs font-bold">
+                  <span>등록 음원 수</span>
+                  <div class="w-8 h-8 rounded-xl bg-brand-neon/10 text-brand-neon flex items-center justify-center">
+                    <i class="fa-solid fa-music"></i>
+                  </div>
+                </div>
+                <div id="kpiTotalTracks" class="text-2xl font-extrabold text-white mt-2">6곡</div>
+                <div class="flex items-center gap-1.5 text-[11px] text-brand-success mt-1 font-semibold">
+                  <i class="fa-solid fa-arrow-up"></i>
+                  <span id="kpiTrackGrowth">+12.5% 증가</span>
+                </div>
+              </div>
+
+              <div class="p-4 bg-brand-cardLight rounded-2xl border border-white/10 hover:border-brand-neon/40 transition">
+                <div class="flex items-center justify-between text-brand-muted text-xs font-bold">
+                  <span>AI 추천 실행 건수</span>
+                  <div class="w-8 h-8 rounded-xl bg-brand-accent/10 text-brand-accent flex items-center justify-center">
+                    <i class="fa-solid fa-robot"></i>
+                  </div>
+                </div>
+                <div id="kpiRecommendCount" class="text-2xl font-extrabold text-white mt-2">1,482회</div>
+                <div class="flex items-center gap-1.5 text-[11px] text-brand-success mt-1 font-semibold">
+                  <i class="fa-solid fa-arrow-up"></i>
+                  <span>상승세 유지</span>
+                </div>
+              </div>
+
+              <div class="p-4 bg-brand-cardLight rounded-2xl border border-white/10 hover:border-brand-neon/40 transition">
+                <div class="flex items-center justify-between text-brand-muted text-xs font-bold">
+                  <span>평균 AI 매칭 정확도</span>
+                  <div class="w-8 h-8 rounded-xl bg-brand-neon/10 text-brand-neon flex items-center justify-center">
+                    <i class="fa-solid fa-bullseye"></i>
+                  </div>
+                </div>
+                <div id="kpiAccuracy" class="text-2xl font-extrabold text-white mt-2">93.8%</div>
+                <div class="flex items-center gap-1.5 text-[11px] text-brand-success mt-1 font-semibold">
+                  <i class="fa-solid fa-check"></i>
+                  <span>최적 임계값 적용</span>
+                </div>
+              </div>
+
+              <div class="p-4 bg-brand-cardLight rounded-2xl border border-white/10 hover:border-brand-neon/40 transition">
+                <div class="flex items-center justify-between text-brand-muted text-xs font-bold">
+                  <span>활성 사용자 수</span>
+                  <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center">
+                    <i class="fa-solid fa-user-group"></i>
+                  </div>
+                </div>
+                <div id="kpiActiveUsers" class="text-2xl font-extrabold text-white mt-2">842명</div>
+                <div class="flex items-center gap-1.5 text-[11px] text-brand-success mt-1 font-semibold">
+                  <i class="fa-solid fa-arrow-up"></i>
+                  <span>동시 접속 124명</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Canvas Chart & Top Tracks Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="lg:col-span-2 p-5 bg-brand-cardLight rounded-2xl border border-white/10 space-y-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-sm font-extrabold text-white">시간대별 AI 추천 요청 트렌드</h3>
+                    <p id="chartSubTitle" class="text-[11px] text-brand-muted">오늘 실시간으로 처리된 음악 추천 쿼리 그래프</p>
+                  </div>
+                  <span class="text-xs text-brand-neon bg-brand-neon/10 px-2.5 py-1 rounded-full border border-brand-neon/20 font-bold">실시간 수집</span>
+                </div>
+                <div class="w-full h-60 bg-brand-black/40 rounded-xl p-2 relative flex items-center justify-center">
+                  <canvas id="analyticsChart" class="w-full h-full block"></canvas>
+                </div>
+              </div>
+
+              <!-- Top Recommended Songs -->
+              <div class="p-5 bg-brand-cardLight rounded-2xl border border-white/10 space-y-4">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-sm font-extrabold text-white">인기 추천 곡 TOP 5</h3>
+                  <span class="text-xs text-brand-subtle">즉시 재생</span>
+                </div>
+                <div id="topSongsList" class="space-y-3">
+                  <!-- Dynamic Top Tracks Injected -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Activity Feed -->
+            <div class="p-5 bg-brand-cardLight rounded-2xl border border-white/10 space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+                  <i class="fa-solid fa-bolt text-brand-neon"></i>
+                  <span>실시간 사용자 활동 스트림</span>
+                </h3>
+                <div class="flex gap-2 text-xs">
+                  <button onclick="filterActivityLog('all')" class="text-brand-neon hover:underline font-bold">전체</button>
+                  <button onclick="filterActivityLog('match')" class="text-brand-muted hover:text-white">매칭</button>
+                  <button onclick="filterActivityLog('admin')" class="text-brand-muted hover:text-white">어드민</button>
+                </div>
+              </div>
+              <div id="activityStream" class="space-y-2 text-xs">
+                <!-- Dynamic Logs -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: Music Management Table Screen -->
+          <div id="secMusic" class="space-y-6 hidden fade-enter">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+              <div>
+                <h1 class="text-xl md:text-2xl font-extrabold text-white">음악 데이터 관리</h1>
+                <p class="text-xs text-brand-muted mt-1">BEAT AI 데이터베이스에 등록된 음원, 태그 및 매칭 비율을 제어합니다.</p>
+              </div>
+              <button onclick="openAddModal()" class="px-4 py-2.5 bg-brand-neon hover:bg-yellow-300 text-brand-black text-xs md:text-sm font-extrabold rounded-xl flex items-center gap-2 shadow-lg shadow-brand-neon/20 hover:scale-105 active:scale-95 transition shrink-0">
+                <i class="fa-solid fa-plus font-black"></i>
+                <span>새 곡 추가</span>
+              </button>
+            </div>
+
+            <!-- Filter & Search Controls -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-brand-black/50 p-4 rounded-xl border border-white/10">
+              <div class="flex flex-wrap items-center gap-3 flex-1">
+                <div class="relative flex-1 min-w-[220px]">
+                  <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-brand-subtle text-xs"></i>
+                  <input 
+                    type="text" 
+                    id="tableSearchInput" 
+                    oninput="handleSearchInput()" 
+                    placeholder="곡명 또는 아티스트 검색..." 
+                    class="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder-brand-subtle focus:outline-none focus:border-brand-neon transition"
+                  >
+                </div>
+
+                <select id="genreFilterSelect" onchange="applyTableFilters()" class="bg-brand-card border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-neon transition">
+                  <option value="ALL">전체 장르</option>
+                  <option value="K-Pop">K-Pop</option>
+                  <option value="댄스">댄스</option>
+                  <option value="R&B">R&B</option>
+                  <option value="발라드">발라드</option>
+                  <option value="Synthpop">Synthpop</option>
+                  <option value="Hip-Hop">Hip-Hop</option>
+                </select>
+
+                <select id="sortSelect" onchange="applyTableFilters()" class="bg-brand-card border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-neon transition">
+                  <option value="newest">최신 등록순</option>
+                  <option value="matchDesc">매칭률 높은순</option>
+                  <option value="titleAsc">곡명 가나다순</option>
+                  <option value="artistAsc">아티스트 가나다순</option>
+                </select>
+              </div>
+
+              <div id="counterBadge" class="text-xs text-brand-muted shrink-0 font-medium">
+                총 0개 항목
+              </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="overflow-x-auto rounded-xl border border-white/10 bg-brand-black/30">
+              <table class="w-full text-left border-collapse min-w-[950px]">
+                <thead>
+                  <tr class="bg-brand-cardLight border-b border-white/10 text-brand-muted text-xs font-bold">
+                    <th class="p-3.5 text-center w-10">
+                      <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)" class="rounded accent-brand-neon cursor-pointer">
+                    </th>
+                    <th class="p-3.5 w-16">커버</th>
+                    <th class="p-3.5">곡명</th>
+                    <th class="p-3.5">아티스트</th>
+                    <th class="p-3.5">장르</th>
+                    <th class="p-3.5">태그</th>
+                    <th class="p-3.5">매칭률</th>
+                    <th class="p-3.5">등록일</th>
+                    <th class="p-3.5">상태</th>
+                    <th class="p-3.5 text-center">관리</th>
+                  </tr>
+                </thead>
+                <tbody id="tracksTableBody" class="divide-y divide-white/5 text-xs text-white font-medium">
+                  <!-- Dynamic Rows -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Floating Batch Action Toolbar -->
+            <div id="batchBar" class="hidden p-4 bg-brand-cardLight border border-brand-neon rounded-2xl shadow-2xl flex flex-wrap items-center justify-between gap-4 fade-enter glow-neon-sm">
+              <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-brand-neon animate-ping"></div>
+                <span class="text-xs font-extrabold text-white">선택한 음원 항목: <span id="selectedCountText" class="text-brand-neon">0</span>개</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <button onclick="batchToggleStatus(true)" class="px-3 py-1.5 rounded-xl bg-brand-success/20 hover:bg-brand-success/30 text-brand-success border border-brand-success/40 text-xs font-bold transition">
+                  <i class="fa-solid fa-check mr-1"></i> 일괄 활성화
+                </button>
+                <button onclick="batchToggleStatus(false)" class="px-3 py-1.5 rounded-xl bg-brand-accent/20 hover:bg-brand-accent/30 text-brand-accent border border-brand-accent/40 text-xs font-bold transition">
+                  <i class="fa-solid fa-ban mr-1"></i> 일괄 비활성화
+                </button>
+                <button onclick="confirmBatchDelete()" class="px-3 py-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/40 text-xs font-bold transition">
+                  <i class="fa-solid fa-trash mr-1"></i> 일괄 삭제
+                </button>
+                <button onclick="exportToCSV()" class="px-3 py-1.5 rounded-xl bg-brand-neon text-brand-black hover:bg-yellow-300 font-extrabold text-xs transition">
+                  <i class="fa-solid fa-file-excel mr-1"></i> 엑셀 내보내기
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Tag Management Screen -->
+          <div id="secTags" class="space-y-6 hidden fade-enter">
+            <div class="border-b border-white/10 pb-4">
+              <h1 class="text-xl md:text-2xl font-extrabold text-white">AI 태그 & 가중치 관리</h1>
+              <p class="text-xs text-brand-muted mt-1">음악 감성 태그의 인기도와 추천 가중치(0.1x ~ 2.0x)를 실시간 조절합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="p-5 bg-brand-cardLight rounded-2xl border border-white/10 space-y-4">
+                <h3 class="text-sm font-extrabold text-white">새 태그 추가</h3>
+                <form onsubmit="handleAddNewTag(event)" class="space-y-3 text-xs">
+                  <div>
+                    <label class="block text-brand-muted mb-1 font-semibold">태그명</label>
+                    <input type="text" id="newTagName" required placeholder="예: #청량한" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+                  </div>
+                  <div>
+                    <label class="block text-brand-muted mb-1 font-semibold">초기 AI 가중치 (0.1x ~ 2.0x)</label>
+                    <input type="number" id="newTagWeight" min="0.1" max="2.0" step="0.1" value="1.0" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+                  </div>
+                  <button type="submit" class="w-full py-2.5 bg-brand-neon text-brand-black font-extrabold rounded-xl hover:bg-yellow-300 transition">
+                    <i class="fa-solid fa-plus mr-1"></i> 태그 등록
+                  </button>
+                </form>
+              </div>
+
+              <div class="lg:col-span-2 p-5 bg-brand-cardLight rounded-2xl border border-white/10 space-y-4">
+                <div class="flex items-center justify-between">
+                  <h3 class="text-sm font-extrabold text-white">등록된 태그 및 AI 가중치 조절</h3>
+                  <input type="text" id="tagSearchInput" oninput="renderTagsList()" placeholder="태그 검색..." class="bg-white/5 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white focus:outline-none focus:border-brand-neon">
+                </div>
+                <div id="tagWeightList" class="space-y-3 text-xs max-h-[500px] overflow-y-auto pr-1">
+                  <!-- Dynamic Tag Sliders -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: User Management Screen -->
+          <div id="secUsers" class="space-y-6 hidden fade-enter">
+            <div class="border-b border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h1 class="text-xl md:text-2xl font-extrabold text-white">사용자 계정 관리</h1>
+                <p class="text-xs text-brand-muted mt-1">플랫폼 가입 사용자 계정과 등급, 이용 상태를 관리합니다.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="openAddUserModal()" class="px-3.5 py-2 bg-brand-neon text-brand-black font-extrabold rounded-xl text-xs hover:bg-yellow-300 transition">
+                  <i class="fa-solid fa-user-plus mr-1"></i> 신규 유저 추가
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-3 bg-brand-black/50 p-3 rounded-xl border border-white/10">
+              <div class="relative flex-1 max-w-xs">
+                <input type="text" id="userSearchInput" oninput="filterUsers()" placeholder="이름, 이메일 검색..." class="w-full bg-white/5 border border-white/10 rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-brand-neon">
+                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-1/2 -translate-y-1/2 text-brand-subtle text-xs"></i>
+              </div>
+              <span id="userCountText" class="text-xs text-brand-muted">총 4명</span>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-white/10 bg-brand-black/30">
+              <table class="w-full text-left border-collapse min-w-[850px]">
+                <thead>
+                  <tr class="bg-brand-cardLight border-b border-white/10 text-brand-muted text-xs font-bold">
+                    <th class="p-3.5">사용자</th>
+                    <th class="p-3.5">이메일</th>
+                    <th class="p-3.5">회원 등급</th>
+                    <th class="p-3.5">추천 이용 횟수</th>
+                    <th class="p-3.5">가입일</th>
+                    <th class="p-3.5">계정 상태</th>
+                    <th class="p-3.5 text-center">관리</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody" class="divide-y divide-white/5 text-xs text-white font-medium">
+                  <!-- Dynamic Users Injected -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 5: Recommendation History Log Screen -->
+          <div id="secHistory" class="space-y-6 hidden fade-enter">
+            <div class="border-b border-white/10 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h1 class="text-xl md:text-2xl font-extrabold text-white">AI 음악 추천 이력 및 피드백</h1>
+                <p class="text-xs text-brand-muted mt-1">사용자 음악 질의 쿼리와 AI 답변 추천 매칭 이력을 로깅합니다.</p>
+              </div>
+              <button onclick="clearAllHistory()" class="px-3.5 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/40 rounded-xl text-xs font-bold transition">
+                <i class="fa-solid fa-trash mr-1"></i> 이력 전체 삭제
+              </button>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 bg-brand-black/50 p-3 rounded-xl border border-white/10">
+              <input type="text" id="historySearchInput" oninput="renderHistoryList()" placeholder="검색어 또는 곡명 검색..." class="bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-neon min-w-[200px]">
+              <select id="historyRatingFilter" onchange="renderHistoryList()" class="bg-brand-card border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-neon">
+                <option value="ALL">전체 별점</option>
+                <option value="5">5점</option>
+                <option value="4">4점 이상</option>
+              </select>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-white/10 bg-brand-black/30">
+              <table class="w-full text-left border-collapse min-w-[850px]">
+                <thead>
+                  <tr class="bg-brand-cardLight border-b border-white/10 text-brand-muted text-xs font-bold">
+                    <th class="p-3.5">시각</th>
+                    <th class="p-3.5">유저 쿼리</th>
+                    <th class="p-3.5">AI 매칭 곡</th>
+                    <th class="p-3.5">매칭 점수</th>
+                    <th class="p-3.5">별점</th>
+                    <th class="p-3.5">코멘트</th>
+                    <th class="p-3.5 text-center">상세</th>
+                  </tr>
+                </thead>
+                <tbody id="historyTableBody" class="divide-y divide-white/5 text-xs text-white font-medium">
+                  <!-- Dynamic Logs -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 6: Settings Screen -->
+          <div id="secSettings" class="space-y-6 hidden fade-enter">
+            <div class="border-b border-white/10 pb-4">
+              <h1 class="text-xl md:text-2xl font-extrabold text-white">AI 추천 엔진 파라미터 설정</h1>
+              <p class="text-xs text-brand-muted mt-1">알고리즘 매칭 임계값, 응답 곡 수 제한 및 데이터베이스 재색인을 실행합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="p-5 bg-brand-cardLight rounded-2xl border border-white/10 space-y-5 text-xs">
+                <h3 class="text-sm font-extrabold text-white">추천 정밀도 파라미터</h3>
+                
+                <div>
+                  <div class="flex justify-between font-bold mb-1">
+                    <span>최소 매칭 임계값 (%)</span>
+                    <span id="thresholdVal" class="text-brand-neon">75%</span>
+                  </div>
+                  <input type="range" id="thresholdSlider" min="50" max="95" value="75" oninput="document.getElementById('thresholdVal').innerText = this.value + '%'" class="w-full">
+                  <p class="text-[10px] text-brand-subtle mt-1">임계값 미만의 유사도를 가진 곡은 추천에서 제외됩니다.</p>
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-bold mb-1">
+                    <span>답변당 최대 추천 곡 수</span>
+                    <span id="limitVal" class="text-brand-neon">3곡</span>
+                  </div>
+                  <input type="range" id="limitSlider" min="1" max="5" value="3" oninput="document.getElementById('limitVal').innerText = this.value + '곡'" class="w-full">
+                </div>
+
+                <div>
+                  <label class="block text-brand-muted mb-1 font-semibold">기본 AI 모델 선택</label>
+                  <select class="w-full bg-brand-black border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+                    <option>BEAT-v2.5-Turbo (빠른 응답/표준 매칭)</option>
+                    <option>BEAT-v3.0-Ultra (정밀 감성 분석 엔진)</option>
+                  </select>
+                </div>
+
+                <button onclick="showToast('AI 엔진 파라미터가 적용되었습니다.')" class="w-full py-2.5 bg-brand-neon text-brand-black font-extrabold rounded-xl hover:bg-yellow-300 transition">
+                  설정 저장
+                </button>
+              </div>
+
+              <div class="p-5 bg-brand-cardLight rounded-2xl border border-white/10 space-y-4 text-xs">
+                <h3 class="text-sm font-extrabold text-white">데이터베이스 임베딩 재색인</h3>
+                <p class="text-brand-muted">신규 음원 및 태그 가중치를 vector DB에 최신화합니다.</p>
+
+                <div class="pt-2">
+                  <button onclick="startReindexProcess()" id="reindexBtn" class="px-5 py-2.5 bg-brand-neon text-brand-black font-extrabold rounded-xl hover:bg-yellow-300 transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>벡터 색인 즉시 실행</span>
+                  </button>
+                </div>
+
+                <div id="reindexProgressContainer" class="hidden space-y-2 pt-2">
+                  <div class="flex justify-between font-bold text-[11px]">
+                    <span class="text-brand-neon">색인 진행 중...</span>
+                    <span id="reindexPercent">0%</span>
+                  </div>
+                  <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                    <div id="reindexProgressBar" class="bg-brand-neon h-full w-0 transition-all duration-200"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: Mobile Chatbot Container View -->
+    <section id="mobileAppContainer" class="w-full hidden flex justify-center py-2 transition-all duration-300">
+      <div class="w-full max-w-[420px] bg-brand-black rounded-[38px] border-[8px] border-zinc-800 phone-shadow overflow-hidden flex flex-col min-h-[850px] relative">
+        
+        <!-- Phone Top Notch -->
+        <div class="w-full pt-3 pb-1 flex justify-center bg-brand-black">
+          <div class="w-32 h-1.5 bg-brand-subtle/40 rounded-full"></div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="px-6 py-2 bg-brand-black flex justify-between items-center text-xs text-white font-semibold">
+          <span id="liveClock">09:41</span>
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-signal text-[10px]"></i>
+            <i class="fa-solid fa-wifi text-[10px]"></i>
+            <i class="fa-solid fa-battery-full text-xs"></i>
+          </div>
+        </div>
+
+        <!-- App Bar Header -->
+        <div class="px-5 py-3 bg-brand-black flex justify-between items-center border-b border-white/5">
+          <div class="flex items-center gap-2">
+            <div class="w-2.5 h-2.5 bg-brand-neon rounded-full"></div>
+            <span class="font-display font-extrabold text-lg text-white">BEAT <span class="text-brand-neon">AI</span></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 text-[10px] font-bold text-brand-accent bg-brand-accent/15 border border-brand-accent rounded-full tracking-wider">PREMIUM</span>
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-7 h-7 rounded-full object-cover ring-1 ring-brand-neon/50">
+          </div>
+        </div>
+
+        <!-- Chat Stream Header -->
+        <div class="px-5 py-2.5 bg-brand-black flex items-center gap-2 border-b border-white/5">
+          <div class="w-7 h-7 bg-brand-neon rounded-full flex items-center justify-center text-brand-black font-bold">
+            <i class="fa-solid fa-robot text-xs"></i>
+          </div>
+          <span class="text-sm font-bold text-white">AI 음악 큐레이터</span>
+          <span class="ml-auto text-[10px] text-brand-neon bg-brand-neon/10 px-2 py-0.5 rounded-full border border-brand-neon/20">실시간 연동</span>
+        </div>
+
+        <!-- Messages Stream -->
+        <div id="chatStream" class="flex-1 p-4 overflow-y-auto space-y-4 bg-brand-black text-xs md:text-sm">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <!-- Chat Input Area -->
+        <div class="p-4 bg-brand-black border-t border-white/10 space-y-2">
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] no-scrollbar">
+            <button onclick="sendQuickPrompt('청량한 여름 K-Pop 추천')" class="px-2.5 py-1 rounded-full bg-white/5 hover:bg-brand-neon/20 hover:text-brand-neon text-brand-muted border border-white/10 whitespace-nowrap transition">🏖️ 여름 K-Pop</button>
+            <button onclick="sendQuickPrompt('드라이브하기 좋은 신나는 비트')" class="px-2.5 py-1 rounded-full bg-white/5 hover:bg-brand-neon/20 hover:text-brand-neon text-brand-muted border border-white/10 whitespace-nowrap transition">🚗 드라이브</button>
+            <button onclick="sendQuickPrompt('비오는 날 듣기 좋은 몽환적인 R&B')" class="px-2.5 py-1 rounded-full bg-white/5 hover:bg-brand-neon/20 hover:text-brand-neon text-brand-muted border border-white/10 whitespace-nowrap transition">🌧️ 비오는 날</button>
+            <button onclick="sendQuickPrompt('새벽 감성 힐링 보컬')" class="px-2.5 py-1 rounded-full bg-white/5 hover:bg-brand-neon/20 hover:text-brand-neon text-brand-muted border border-white/10 whitespace-nowrap transition">🌙 새벽 감성</button>
+          </div>
+
+          <form id="chatForm" onsubmit="handleUserSubmit(event)" class="flex items-center gap-2">
+            <input 
+              type="text" 
+              id="userInput" 
+              placeholder="추천받고 싶은 분위기, 장르를 입력하세요..." 
+              class="flex-1 bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-brand-subtle focus:outline-none focus:border-brand-neon transition"
+              autocomplete="off"
+            >
+            <button 
+              type="submit" 
+              class="w-10 h-10 bg-brand-neon rounded-xl flex items-center justify-center text-brand-black font-bold hover:scale-105 active:scale-95 transition glow-neon-sm shrink-0"
+            >
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Web Audio Player Floating Bar -->
+  <div id="globalPlayer" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-lg bg-brand-card/95 backdrop-blur-md border border-brand-neon/50 p-3 rounded-2xl shadow-2xl flex items-center justify-between gap-3 glow-neon-sm hidden transition-all">
+    <div class="flex items-center gap-3 overflow-hidden">
+      <img id="playerCover" src="https://placehold.co/44x44/1A1D26/E2FF00?text=BEAT" class="w-11 h-11 rounded-xl object-cover border border-white/10 shrink-0">
+      <div class="overflow-hidden">
+        <div id="playerTitle" class="text-xs font-extrabold text-white truncate">선택된 음원 없음</div>
+        <div id="playerArtist" class="text-[11px] text-brand-muted truncate">아티스트</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-1 px-2 shrink-0">
+      <span class="eq-bar"></span>
+      <span class="eq-bar"></span>
+      <span class="eq-bar"></span>
+      <span class="eq-bar"></span>
+    </div>
+
+    <div class="flex items-center gap-2 shrink-0">
+      <button onclick="toggleAudioPreview()" id="playerToggleBtn" class="w-9 h-9 bg-brand-neon rounded-full text-brand-black flex items-center justify-center font-black hover:scale-105 active:scale-95 transition">
+        <i class="fa-solid fa-pause"></i>
+      </button>
+      <button onclick="stopAudioPreview()" class="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-full text-white flex items-center justify-center text-xs transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL 1: Profile & Account Settings Modal -->
+  <div id="profileModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-white/10 rounded-2xl p-6 w-full max-w-md space-y-5 shadow-2xl relative fade-enter">
+      <button onclick="closeModal('profileModal')" class="absolute top-4 right-4 text-brand-muted hover:text-white text-base">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="flex items-center gap-4 border-b border-white/10 pb-4">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="w-14 h-14 rounded-full object-cover ring-2 ring-brand-neon">
+        <div>
+          <h2 class="text-base font-extrabold text-white">관리자 마스터</h2>
+          <p class="text-xs text-brand-neon font-bold">master@beatai.io</p>
+          <span class="inline-block mt-1 text-[10px] bg-brand-neon/20 text-brand-neon px-2 py-0.5 rounded font-bold">SuperAdmin Permission</span>
+        </div>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <h3 class="font-bold text-white text-sm">비밀번호 변경</h3>
+        <div>
+          <label class="block text-brand-muted mb-1">현재 비밀번호</label>
+          <input type="password" id="passCurrent" placeholder="••••••••" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+        </div>
+        <div>
+          <label class="block text-brand-muted mb-1">새 비밀번호</label>
+          <input type="password" id="passNew" placeholder="새 비밀번호 입력" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+        </div>
+      </div>
+
+      <div class="pt-2 flex items-center justify-between">
+        <button onclick="simulateLogout()" class="px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/40 text-xs font-bold transition">
+          <i class="fa-solid fa-right-from-bracket mr-1"></i> 로그아웃
+        </button>
+        <button onclick="saveProfileSettings()" class="px-5 py-2 rounded-xl bg-brand-neon text-brand-black text-xs font-extrabold hover:bg-yellow-300 transition">
+          변경사항 저장
+        </button>
       </div>
     </div>
   </div>
-  <div style="align-self: stretch; flex: 1 1 0; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-    <div style="width: 240px; align-self: stretch; padding: 24px; background: #12141C; border-right: 1px rgba(255, 255, 255, 0.08) solid; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 32px; display: inline-flex">
-      <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; display: flex">
-        <div style="align-self: stretch; color: #6B7280; font-size: 12px; font-family: Inter; font-weight: 700; text-transform: uppercase; word-wrap: break-word">메인 메뉴</div>
-        <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 4px; display: flex">
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; border-radius: 8px; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-            <div style="width: 18px; height: 18px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-              <div style="width: 18px; height: 18px; position: relative; overflow: hidden">
-                <div style="width: 13.50px; height: 14.25px; left: 2.25px; top: 1.50px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-              </div>
-            </div>
-            <div style="color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 500; word-wrap: break-word">대시보드</div>
+
+  <!-- MODAL 2: Add/Edit Track -->
+  <div id="trackModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-white/10 rounded-2xl p-6 w-full max-w-md space-y-4 shadow-2xl relative fade-enter">
+      <button onclick="closeModal('trackModal')" class="absolute top-4 right-4 text-brand-muted hover:text-white text-base">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h2 id="modalHeaderTitle" class="text-lg font-extrabold text-white">새 곡 추가</h2>
+
+      <form id="trackForm" onsubmit="handleSaveTrack(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="editTrackId">
+        
+        <div>
+          <label class="block text-brand-muted mb-1 font-semibold">곡명</label>
+          <input type="text" id="inputTitle" required placeholder="곡명을 입력하세요" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+        </div>
+
+        <div>
+          <label class="block text-brand-muted mb-1 font-semibold">아티스트</label>
+          <input type="text" id="inputArtist" required placeholder="아티스트명" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-brand-muted mb-1 font-semibold">장르</label>
+            <select id="inputGenre" class="w-full bg-brand-black border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+              <option value="K-Pop">K-Pop</option>
+              <option value="댄스">댄스</option>
+              <option value="R&B">R&B</option>
+              <option value="발라드">발라드</option>
+              <option value="Synthpop">Synthpop</option>
+              <option value="Hip-Hop">Hip-Hop</option>
+            </select>
           </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; background: rgba(226, 255, 0, 0.13); border-radius: 8px; border-left: 3px #E2FF00 solid; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-            <div style="width: 18px; height: 18px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-              <div style="width: 18px; height: 18px; position: relative; overflow: hidden">
-                <div style="width: 13.50px; height: 13.50px; left: 2.25px; top: 2.25px; position: absolute; outline: 2px #E2FF00 solid; outline-offset: -1px"></div>
-              </div>
-            </div>
-            <div style="color: #E2FF00; font-size: 14px; font-family: Inter; font-weight: 700; word-wrap: break-word">음악 관리</div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; border-radius: 8px; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-            <div style="width: 18px; height: 18px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-              <div style="width: 18px; height: 18px; position: relative; overflow: hidden">
-                <div style="width: 15px; height: 15px; left: 1.50px; top: 1.50px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-              </div>
-            </div>
-            <div style="color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 500; word-wrap: break-word">태그 관리</div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; border-radius: 8px; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-            <div style="width: 18px; height: 18px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-              <div style="width: 18px; height: 18px; position: relative; overflow: hidden">
-                <div style="width: 15px; height: 13.50px; left: 1.50px; top: 2.25px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-              </div>
-            </div>
-            <div style="color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 500; word-wrap: break-word">사용자 관리</div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; border-radius: 8px; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-            <div style="width: 18px; height: 18px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-              <div style="width: 18px; height: 18px; position: relative; overflow: hidden">
-                <div style="width: 15px; height: 15px; left: 1.50px; top: 1.50px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-              </div>
-            </div>
-            <div style="color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 500; word-wrap: break-word">추천 이력</div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; border-radius: 8px; justify-content: flex-start; align-items: center; gap: 12px; display: inline-flex">
-            <div style="width: 18px; height: 18px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-              <div style="width: 18px; height: 18px; position: relative; overflow: hidden">
-                <div style="width: 13.43px; height: 14.97px; left: 2.28px; top: 1.51px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-              </div>
-            </div>
-            <div style="color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 500; word-wrap: break-word">설정</div>
+          <div>
+            <label class="block text-brand-muted mb-1 font-semibold">AI 매칭률 (%)</label>
+            <input type="number" id="inputMatchRate" min="50" max="100" value="95" required class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
           </div>
         </div>
-      </div>
-      <div style="align-self: stretch; padding: 16px; background: rgba(255, 255, 255, 0.04); border-radius: 12px; outline: 1px rgba(255, 255, 255, 0.08) solid; outline-offset: -1px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: flex">
-        <div style="justify-content: flex-start; align-items: center; gap: 6px; display: inline-flex">
-          <div style="width: 6px; height: 6px; background: #10B981; border-radius: 9999px"></div>
-          <div style="color: white; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">AI 엔진 상태 정상</div>
+
+        <div>
+          <label class="block text-brand-muted mb-1 font-semibold">태그 (쉼표 구분)</label>
+          <input type="text" id="inputTags" placeholder="예: #청량한, #여름, #드라이브" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
         </div>
-        <div style="align-self: stretch; color: #9CA3AF; font-size: 11px; font-family: Inter; font-weight: 400; line-height: 15.40px; word-wrap: break-word">최근 데이터 동기화 완료: 오늘 14:32</div>
-      </div>
+
+        <div>
+          <label class="block text-brand-muted mb-1 font-semibold">커버 이미지 URL (선택)</label>
+          <input type="url" id="inputCover" placeholder="https://..." class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('trackModal')" class="px-4 py-2 rounded-xl bg-white/10 text-white font-semibold">취소</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-neon text-brand-black font-extrabold hover:bg-yellow-300">저장하기</button>
+        </div>
+      </form>
     </div>
-    <div style="flex: 1 1 0; align-self: stretch; padding: 32px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 24px; display: inline-flex">
-      <div style="align-self: stretch; justify-content: space-between; align-items: center; display: inline-flex">
-        <div style="flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 4px; display: inline-flex">
-          <div style="color: white; font-size: 24px; font-family: Inter; font-weight: 800; word-wrap: break-word">음악 데이터 관리</div>
-          <div style="color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">BEAT AI 추천 데이터베이스의 음원 트랙과 태그 메타데이터를 관리합니다.</div>
+  </div>
+
+  <!-- MODAL 3: Add New User Modal -->
+  <div id="userModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-white/10 rounded-2xl p-6 w-full max-w-md space-y-4 shadow-2xl relative fade-enter">
+      <button onclick="closeModal('userModal')" class="absolute top-4 right-4 text-brand-muted hover:text-white text-base">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h2 class="text-lg font-extrabold text-white">신규 사용자 추가</h2>
+
+      <form onsubmit="handleSaveUser(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-brand-muted mb-1 font-semibold">이름</label>
+          <input type="text" id="newUserName" required placeholder="사용자 이름" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
         </div>
-        <div style="padding-left: 20px; padding-right: 20px; padding-top: 12px; padding-bottom: 12px; background: #E2FF00; border-radius: 8px; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
-          <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-            <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-              <div style="width: 9.33px; height: 9.33px; left: 3.33px; top: 3.33px; position: absolute; outline: 2px #0D0E12 solid; outline-offset: -1px"></div>
-            </div>
-          </div>
-          <div style="color: #0D0E12; font-size: 14px; font-family: Inter; font-weight: 800; word-wrap: break-word">새 곡 추가</div>
+
+        <div>
+          <label class="block text-brand-muted mb-1 font-semibold">이메일</label>
+          <input type="email" id="newUserEmail" required placeholder="user@domain.com" class="w-full bg-white/5 border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
         </div>
+
+        <div>
+          <label class="block text-brand-muted mb-1 font-semibold">회원 등급</label>
+          <select id="newUserTier" class="w-full bg-brand-black border border-white/10 rounded-xl p-2.5 text-white focus:outline-none focus:border-brand-neon">
+            <option value="Free">Free</option>
+            <option value="Premium Partner">Premium Partner</option>
+            <option value="Admin Master">Admin Master</option>
+          </select>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('userModal')" class="px-4 py-2 rounded-xl bg-white/10 text-white font-semibold">취소</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-neon text-brand-black font-extrabold hover:bg-yellow-300">유저 추가</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Delete Confirmation Modal -->
+  <div id="deleteConfirmModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-white/10 rounded-2xl p-6 w-full max-w-sm space-y-4 text-center fade-enter">
+      <div class="w-12 h-12 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center mx-auto text-xl">
+        <i class="fa-solid fa-triangle-exclamation"></i>
       </div>
-      <div style="align-self: stretch; padding: 20px; background: #12141C; border-radius: 16px; outline: 1px rgba(255, 255, 255, 0.08) solid; outline-offset: -1px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 20px; display: flex">
-        <div style="align-self: stretch; justify-content: space-between; align-items: center; display: inline-flex">
-          <div style="width: 600px; justify-content: flex-start; align-items: center; gap: 12px; display: flex">
-            <div style="flex: 1 1 0; height: 40px; padding-left: 16px; padding-right: 16px; background: rgba(255, 255, 255, 0.04); border-radius: 8px; outline: 1px rgba(255, 255, 255, 0.08) solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 10px; display: flex">
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12px; height: 12px; left: 2px; top: 2px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-              <div style="flex: 1 1 0; color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">곡명 또는 아티스트 검색...</div>
-            </div>
-            <div style="height: 40px; padding-left: 16px; padding-right: 16px; background: rgba(255, 255, 255, 0.04); border-radius: 8px; outline: 1px rgba(255, 255, 255, 0.08) solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
-              <div style="color: white; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">장르 선택</div>
-              <div style="width: 12px; height: 12px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 12px; height: 12px; position: relative; overflow: hidden">
-                  <div style="width: 6px; height: 3px; left: 3px; top: 4.50px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-            </div>
-            <div style="height: 40px; padding-left: 16px; padding-right: 16px; background: rgba(255, 255, 255, 0.04); border-radius: 8px; outline: 1px rgba(255, 255, 255, 0.08) solid; outline-offset: -1px; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
-              <div style="color: white; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">정렬 기준</div>
-              <div style="width: 12px; height: 12px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 12px; height: 12px; position: relative; overflow: hidden">
-                  <div style="width: 6px; height: 3px; left: 3px; top: 4.50px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">총 248곡 중 1-10 표시</div>
-        </div>
-        <div style="align-self: stretch; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: flex">
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; background: #1A1D26; border-top-left-radius: 8px; border-top-right-radius: 8px; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex">
-            <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">
-              <div style="width: 16px; height: 16px; background: rgba(226, 255, 0, 0.13); border-radius: 3px; border: 2px #E2FF00 solid"></div>
-            </div>
-            <div style="width: 50px; color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">아트</div>
-            <div style="flex: 1 1 0; color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">곡명</div>
-            <div style="width: 150px; color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">아티스트</div>
-            <div style="width: 100px; color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">장르</div>
-            <div style="width: 180px; color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">태그</div>
-            <div style="width: 90px; color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">매칭률</div>
-            <div style="width: 110px; color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">등록일</div>
-            <div style="width: 100px; color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">상태</div>
-            <div style="width: 80px; text-align: center; color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">관리</div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; background: rgba(226, 255, 0, 0.03); border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex">
-            <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">
-              <div style="padding: 2px; background: #E2FF00; border-radius: 3px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="width: 12px; height: 12px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                  <div style="width: 12px; height: 12px; position: relative; overflow: hidden">
-                    <div style="width: 8px; height: 5.50px; left: 2px; top: 3px; position: absolute; outline: 2px #0D0E12 solid; outline-offset: -1px"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img style="width: 40px; height: 40px; border-radius: 6px" src="https://placehold.co/40x40" />
-            <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-              <div style="align-self: stretch; color: white; font-size: 14px; font-family: Inter; font-weight: 700; word-wrap: break-word">Lemon Sour</div>
-            </div>
-            <div style="width: 150px; color: white; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">NEX-T</div>
-            <div style="width: 100px; color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">K-Pop</div>
-            <div style="width: 180px; justify-content: flex-start; align-items: flex-start; gap: 4px; display: flex; flex-wrap: wrap; align-content: flex-start">
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#citrus</div>
-              </div>
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#청량한</div>
-              </div>
-            </div>
-            <div style="width: 90px; color: #FF5E3A; font-size: 14px; font-family: Inter; font-weight: 600; word-wrap: break-word">98%</div>
-            <div style="width: 110px; color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">2024.05.12</div>
-            <div style="width: 100px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; background: rgba(16, 185, 129, 0.10); border-radius: 4px; outline: 1px #10B981 solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #10B981; font-size: 11px; font-family: Inter; font-weight: 700; word-wrap: break-word">활성화</div>
-              </div>
-            </div>
-            <div style="width: 80px; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12.66px; height: 12.66px; left: 2px; top: 1.34px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12px; height: 13.33px; left: 2px; top: 1.33px; position: absolute; outline: 2px #6B7280 solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; background: rgba(226, 255, 0, 0.03); border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex">
-            <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">
-              <div style="padding: 2px; background: #E2FF00; border-radius: 3px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="width: 12px; height: 12px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                  <div style="width: 12px; height: 12px; position: relative; overflow: hidden">
-                    <div style="width: 8px; height: 5.50px; left: 2px; top: 3px; position: absolute; outline: 2px #0D0E12 solid; outline-offset: -1px"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img style="width: 40px; height: 40px; border-radius: 6px" src="https://placehold.co/40x40" />
-            <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-              <div style="align-self: stretch; color: white; font-size: 14px; font-family: Inter; font-weight: 700; word-wrap: break-word">Neon Wave</div>
-            </div>
-            <div style="width: 150px; color: white; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">Y2K Cyber</div>
-            <div style="width: 100px; color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">댄스</div>
-            <div style="width: 180px; justify-content: flex-start; align-items: flex-start; gap: 4px; display: flex; flex-wrap: wrap; align-content: flex-start">
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#cyber</div>
-              </div>
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#신나는</div>
-              </div>
-            </div>
-            <div style="width: 90px; color: #FF5E3A; font-size: 14px; font-family: Inter; font-weight: 600; word-wrap: break-word">94%</div>
-            <div style="width: 110px; color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">2024.05.10</div>
-            <div style="width: 100px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; background: rgba(16, 185, 129, 0.10); border-radius: 4px; outline: 1px #10B981 solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #10B981; font-size: 11px; font-family: Inter; font-weight: 700; word-wrap: break-word">활성화</div>
-              </div>
-            </div>
-            <div style="width: 80px; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12.66px; height: 12.66px; left: 2px; top: 1.34px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12px; height: 13.33px; left: 2px; top: 1.33px; position: absolute; outline: 2px #6B7280 solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; background: rgba(226, 255, 0, 0.03); border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex">
-            <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">
-              <div style="padding: 2px; background: #E2FF00; border-radius: 3px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="width: 12px; height: 12px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                  <div style="width: 12px; height: 12px; position: relative; overflow: hidden">
-                    <div style="width: 8px; height: 5.50px; left: 2px; top: 3px; position: absolute; outline: 2px #0D0E12 solid; outline-offset: -1px"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img style="width: 40px; height: 40px; border-radius: 6px" src="https://placehold.co/40x40" />
-            <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-              <div style="align-self: stretch; color: white; font-size: 14px; font-family: Inter; font-weight: 700; word-wrap: break-word">Tangerine Sunset</div>
-            </div>
-            <div style="width: 150px; color: white; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">K-Vibe AI</div>
-            <div style="width: 100px; color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">R&B</div>
-            <div style="width: 180px; justify-content: flex-start; align-items: flex-start; gap: 4px; display: flex; flex-wrap: wrap; align-content: flex-start">
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#몽환적인</div>
-              </div>
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#sunset</div>
-              </div>
-            </div>
-            <div style="width: 90px; color: #FF5E3A; font-size: 14px; font-family: Inter; font-weight: 600; word-wrap: break-word">91%</div>
-            <div style="width: 110px; color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">2024.05.08</div>
-            <div style="width: 100px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; background: rgba(16, 185, 129, 0.10); border-radius: 4px; outline: 1px #10B981 solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #10B981; font-size: 11px; font-family: Inter; font-weight: 700; word-wrap: break-word">활성화</div>
-              </div>
-            </div>
-            <div style="width: 80px; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12.66px; height: 12.66px; left: 2px; top: 1.34px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12px; height: 13.33px; left: 2px; top: 1.33px; position: absolute; outline: 2px #6B7280 solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex">
-            <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">
-              <div style="width: 16px; height: 16px; border-radius: 3px; border: 2px rgba(255, 255, 255, 0.08) solid"></div>
-            </div>
-            <img style="width: 40px; height: 40px; border-radius: 6px" src="https://placehold.co/40x40" />
-            <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-              <div style="align-self: stretch; color: white; font-size: 14px; font-family: Inter; font-weight: 700; word-wrap: break-word">Summer Soda</div>
-            </div>
-            <div style="width: 150px; color: white; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">Blue Pearl</div>
-            <div style="width: 100px; color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">K-Pop</div>
-            <div style="width: 180px; justify-content: flex-start; align-items: flex-start; gap: 4px; display: flex; flex-wrap: wrap; align-content: flex-start">
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#청량한</div>
-              </div>
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#여름</div>
-              </div>
-            </div>
-            <div style="width: 90px; color: #FF5E3A; font-size: 14px; font-family: Inter; font-weight: 600; word-wrap: break-word">87%</div>
-            <div style="width: 110px; color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">2024.05.05</div>
-            <div style="width: 100px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; background: rgba(255, 94, 58, 0.10); border-radius: 4px; outline: 1px #FF5E3A solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #FF5E3A; font-size: 11px; font-family: Inter; font-weight: 700; word-wrap: break-word">비활성화</div>
-              </div>
-            </div>
-            <div style="width: 80px; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12.66px; height: 12.66px; left: 2px; top: 1.34px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12px; height: 13.33px; left: 2px; top: 1.33px; position: absolute; outline: 2px #6B7280 solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex">
-            <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">
-              <div style="width: 16px; height: 16px; border-radius: 3px; border: 2px rgba(255, 255, 255, 0.08) solid"></div>
-            </div>
-            <img style="width: 40px; height: 40px; border-radius: 6px" src="https://placehold.co/40x40" />
-            <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-              <div style="align-self: stretch; color: white; font-size: 14px; font-family: Inter; font-weight: 700; word-wrap: break-word">Next Stage</div>
-            </div>
-            <div style="width: 150px; color: white; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">AESPA (AI)</div>
-            <div style="width: 100px; color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">댄스</div>
-            <div style="width: 180px; justify-content: flex-start; align-items: flex-start; gap: 4px; display: flex; flex-wrap: wrap; align-content: flex-start">
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#futuristic</div>
-              </div>
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#힙합</div>
-              </div>
-            </div>
-            <div style="width: 90px; color: #FF5E3A; font-size: 14px; font-family: Inter; font-weight: 600; word-wrap: break-word">85%</div>
-            <div style="width: 110px; color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">2024.04.30</div>
-            <div style="width: 100px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; background: rgba(16, 185, 129, 0.10); border-radius: 4px; outline: 1px #10B981 solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #10B981; font-size: 11px; font-family: Inter; font-weight: 700; word-wrap: break-word">활성화</div>
-              </div>
-            </div>
-            <div style="width: 80px; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12.66px; height: 12.66px; left: 2px; top: 1.34px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12px; height: 13.33px; left: 2px; top: 1.33px; position: absolute; outline: 2px #6B7280 solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex">
-            <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">
-              <div style="width: 16px; height: 16px; border-radius: 3px; border: 2px rgba(255, 255, 255, 0.08) solid"></div>
-            </div>
-            <img style="width: 40px; height: 40px; border-radius: 6px" src="https://placehold.co/40x40" />
-            <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-              <div style="align-self: stretch; color: white; font-size: 14px; font-family: Inter; font-weight: 700; word-wrap: break-word">Hype World</div>
-            </div>
-            <div style="width: 150px; color: white; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">NewJeans (AI)</div>
-            <div style="width: 100px; color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">K-Pop</div>
-            <div style="width: 180px; justify-content: flex-start; align-items: flex-start; gap: 4px; display: flex; flex-wrap: wrap; align-content: flex-start">
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#fresh</div>
-              </div>
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#감성적인</div>
-              </div>
-            </div>
-            <div style="width: 90px; color: #FF5E3A; font-size: 14px; font-family: Inter; font-weight: 600; word-wrap: break-word">82%</div>
-            <div style="width: 110px; color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">2024.04.28</div>
-            <div style="width: 100px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; background: rgba(16, 185, 129, 0.10); border-radius: 4px; outline: 1px #10B981 solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #10B981; font-size: 11px; font-family: Inter; font-weight: 700; word-wrap: break-word">활성화</div>
-              </div>
-            </div>
-            <div style="width: 80px; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12.66px; height: 12.66px; left: 2px; top: 1.34px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12px; height: 13.33px; left: 2px; top: 1.33px; position: absolute; outline: 2px #6B7280 solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style="align-self: stretch; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; border-bottom: 1px rgba(255, 255, 255, 0.08) solid; justify-content: flex-start; align-items: center; gap: 16px; display: inline-flex">
-            <div style="width: 24px; height: 24px; justify-content: center; align-items: center; display: flex">
-              <div style="width: 16px; height: 16px; border-radius: 3px; border: 2px rgba(255, 255, 255, 0.08) solid"></div>
-            </div>
-            <img style="width: 40px; height: 40px; border-radius: 6px" src="https://placehold.co/40x40" />
-            <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
-              <div style="align-self: stretch; color: white; font-size: 14px; font-family: Inter; font-weight: 700; word-wrap: break-word">Cyber Rain</div>
-            </div>
-            <div style="width: 150px; color: white; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">Tears AI</div>
-            <div style="width: 100px; color: #9CA3AF; font-size: 14px; font-family: Inter; font-weight: 400; word-wrap: break-word">발라드</div>
-            <div style="width: 180px; justify-content: flex-start; align-items: flex-start; gap: 4px; display: flex; flex-wrap: wrap; align-content: flex-start">
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#rain</div>
-              </div>
-              <div style="padding-left: 6px; padding-right: 6px; padding-top: 2px; padding-bottom: 2px; background: rgba(255, 255, 255, 0.04); border-radius: 4px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #E2FF00; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">#비오는날</div>
-              </div>
-            </div>
-            <div style="width: 90px; color: #FF5E3A; font-size: 14px; font-family: Inter; font-weight: 600; word-wrap: break-word">79%</div>
-            <div style="width: 110px; color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">2024.04.25</div>
-            <div style="width: 100px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="padding-left: 8px; padding-right: 8px; padding-top: 4px; padding-bottom: 4px; background: rgba(16, 185, 129, 0.10); border-radius: 4px; outline: 1px #10B981 solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-                <div style="color: #10B981; font-size: 11px; font-family: Inter; font-weight: 700; word-wrap: break-word">활성화</div>
-              </div>
-            </div>
-            <div style="width: 80px; justify-content: center; align-items: flex-start; gap: 12px; display: flex">
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12.66px; height: 12.66px; left: 2px; top: 1.34px; position: absolute; outline: 2px #9CA3AF solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-              <div style="width: 16px; height: 16px; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-                <div style="width: 16px; height: 16px; position: relative; overflow: hidden">
-                  <div style="width: 12px; height: 13.33px; left: 2px; top: 1.33px; position: absolute; outline: 2px #6B7280 solid; outline-offset: -1px"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="align-self: stretch; justify-content: space-between; align-items: center; display: inline-flex">
-          <div style="color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">1-10 / 248 항목</div>
-          <div style="justify-content: flex-start; align-items: center; gap: 8px; display: flex">
-            <div style="padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; background: rgba(255, 255, 255, 0.04); border-radius: 6px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="color: #6B7280; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">이전</div>
-            </div>
-            <div style="padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; background: #E2FF00; border-radius: 6px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="color: #0D0E12; font-size: 13px; font-family: Inter; font-weight: 700; word-wrap: break-word">1</div>
-            </div>
-            <div style="padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; background: rgba(255, 255, 255, 0.04); border-radius: 6px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">2</div>
-            </div>
-            <div style="padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; background: rgba(255, 255, 255, 0.04); border-radius: 6px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">3</div>
-            </div>
-            <div style="padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; background: rgba(255, 255, 255, 0.04); border-radius: 6px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">4</div>
-            </div>
-            <div style="padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; background: rgba(255, 255, 255, 0.04); border-radius: 6px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">5</div>
-            </div>
-            <div style="padding-left: 12px; padding-right: 12px; padding-top: 8px; padding-bottom: 8px; background: rgba(255, 255, 255, 0.04); border-radius: 6px; justify-content: flex-start; align-items: flex-start; display: flex">
-              <div style="color: #9CA3AF; font-size: 13px; font-family: Inter; font-weight: 400; word-wrap: break-word">다음</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="align-self: stretch; padding-left: 24px; padding-right: 24px; padding-top: 14px; padding-bottom: 14px; background: #1A1D26; box-shadow: 0px 4px 16px rgba(226, 255, 0, 0.15); border-radius: 12px; outline: 1px #E2FF00 solid; outline-offset: -1px; justify-content: space-between; align-items: center; display: inline-flex">
-        <div style="justify-content: flex-start; align-items: center; gap: 12px; display: flex">
-          <div style="width: 8px; height: 8px; background: #E2FF00; border-radius: 9999px"></div>
-          <div style="color: white; font-size: 14px; font-family: Inter; font-weight: 700; word-wrap: break-word">선택된 항목: 3개</div>
-        </div>
-        <div style="justify-content: flex-start; align-items: center; gap: 12px; display: flex">
-          <div style="padding-left: 14px; padding-right: 14px; padding-top: 8px; padding-bottom: 8px; border-radius: 6px; outline: 1px rgba(255, 255, 255, 0.08) solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-            <div style="color: white; font-size: 13px; font-family: Inter; font-weight: 600; word-wrap: break-word">일괄 수정</div>
-          </div>
-          <div style="padding-left: 14px; padding-right: 14px; padding-top: 8px; padding-bottom: 8px; background: rgba(255, 94, 58, 0.13); border-radius: 6px; outline: 1px #FF5E3A solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-            <div style="color: #FF5E3A; font-size: 13px; font-family: Inter; font-weight: 600; word-wrap: break-word">일괄 삭제</div>
-          </div>
-          <div style="padding-left: 14px; padding-right: 14px; padding-top: 8px; padding-bottom: 8px; background: rgba(226, 255, 0, 0.13); border-radius: 6px; outline: 1px #E2FF00 solid; outline-offset: -1px; justify-content: flex-start; align-items: flex-start; display: flex">
-            <div style="color: #E2FF00; font-size: 13px; font-family: Inter; font-weight: 600; word-wrap: break-word">엑셀 내보내기</div>
-          </div>
-        </div>
+      <h3 class="text-base font-extrabold text-white">삭제 확인</h3>
+      <p id="deleteModalMessage" class="text-xs text-brand-muted">정말로 선택한 항목을 삭제하시겠습니까?</p>
+      
+      <div class="flex items-center gap-2 pt-2">
+        <button onclick="closeModal('deleteConfirmModal')" class="flex-1 py-2 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl text-xs">취소</button>
+        <button id="confirmDeleteBtn" class="flex-1 py-2 bg-red-500 hover:bg-red-600 text-white font-extrabold rounded-xl text-xs">삭제 진행</button>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- MODAL 5: Star Rating Modal -->
+  <div id="ratingModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-white/10 rounded-2xl p-6 w-full max-w-xs text-center space-y-4 fade-enter">
+      <h3 class="text-sm font-extrabold text-white">추천 음악 평가하기</h3>
+      <p id="ratingTrackName" class="text-xs text-brand-neon font-bold truncate">NEON CITRUS</p>
+      
+      <div id="starContainer" class="flex justify-center gap-2 text-2xl text-amber-400 cursor-pointer">
+        <i class="fa-regular fa-star hover:scale-125 transition" onclick="setStarRating(1)"></i>
+        <i class="fa-regular fa-star hover:scale-125 transition" onclick="setStarRating(2)"></i>
+        <i class="fa-regular fa-star hover:scale-125 transition" onclick="setStarRating(3)"></i>
+        <i class="fa-regular fa-star hover:scale-125 transition" onclick="setStarRating(4)"></i>
+        <i class="fa-regular fa-star hover:scale-125 transition" onclick="setStarRating(5)"></i>
+      </div>
+
+      <button onclick="confirmRating()" class="w-full py-2 bg-brand-neon text-brand-black font-extrabold rounded-xl text-xs">확인</button>
+    </div>
+  </div>
+
+  <!-- MODAL 6: Comment Modal -->
+  <div id="commentModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-white/10 rounded-2xl p-6 w-full max-w-sm space-y-3 fade-enter">
+      <h3 class="text-sm font-extrabold text-white">피드백 코멘트</h3>
+      <textarea id="commentText" rows="3" placeholder="이 곡에 대한 감상평이나 AI 추천 피드백을 남겨주세요..." class="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-brand-neon"></textarea>
+      <div class="flex justify-end gap-2">
+        <button onclick="closeModal('commentModal')" class="px-3 py-1.5 rounded-xl bg-white/10 text-white text-xs">취소</button>
+        <button onclick="saveComment()" class="px-4 py-1.5 rounded-xl bg-brand-neon text-brand-black font-extrabold text-xs">등록</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast System -->
+  <div id="toast" class="fixed top-16 right-4 z-50 bg-brand-neon text-brand-black px-4 py-2.5 rounded-xl text-xs font-extrabold shadow-xl opacity-0 pointer-events-none transition-all transform translate-y-2">
+    알림 메세지
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // Initial Track Dataset
+    const INITIAL_TRACKS = [
+      { id: 1, title: 'NEON CITRUS', artist: 'NEX-T (feat. CyberVocal)', genre: 'K-Pop', tags: ['#citrus', '#청량한', '#여름'], matchRate: 98, date: '2024.05.12', status: true, cover: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&auto=format&fit=crop&q=80', synthFreq: 440 },
+      { id: 2, title: 'Lemon Drop', artist: 'PRISM', genre: '댄스', tags: ['#cyber', '#신나는'], matchRate: 94, date: '2024.05.10', status: true, cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&auto=format&fit=crop&q=80', synthFreq: 523.25 },
+      { id: 3, title: 'Tangerine Sunset', artist: 'K-Vibe AI', genre: 'R&B', tags: ['#몽환적인', '#sunset'], matchRate: 91, date: '2024.05.08', status: true, cover: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&auto=format&fit=crop&q=80', synthFreq: 349.23 },
+      { id: 4, title: 'Summer Soda', artist: 'Blue Pearl', genre: 'K-Pop', tags: ['#청량한', '#여름'], matchRate: 87, date: '2024.05.05', status: false, cover: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=150&auto=format&fit=crop&q=80', synthFreq: 392.00 },
+      { id: 5, title: 'Next Stage', artist: 'AESPA (AI)', genre: '댄스', tags: ['#futuristic', '#힙합'], matchRate: 85, date: '2024.04.30', status: true, cover: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=150&auto=format&fit=crop&q=80', synthFreq: 587.33 },
+      { id: 6, title: 'Cyber Rain', artist: 'Tears AI', genre: '발라드', tags: ['#rain', '#비오는날'], matchRate: 79, date: '2024.04.25', status: true, cover: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=150&auto=format&fit=crop&q=80', synthFreq: 329.63 }
+    ];
+
+    let tagsList = [
+      { id: 1, name: '#청량한', weight: 1.5, count: 320 },
+      { id: 2, name: '#여름', weight: 1.8, count: 410 },
+      { id: 3, name: '#드라이브', weight: 1.2, count: 280 },
+      { id: 4, name: '#비오는날', weight: 1.0, count: 190 },
+      { id: 5, name: '#새벽감성', weight: 1.4, count: 230 }
+    ];
+
+    let usersList = [
+      { id: 1, name: '김민준', email: 'minjun@korea.com', tier: 'Premium Partner', usage: 142, status: true, date: '2024.01.15' },
+      { id: 2, name: '이서연', email: 'seoyeon@gmail.com', tier: 'Free', usage: 28, status: true, date: '2024.02.01' },
+      { id: 3, name: '박도현', email: 'dohyun@naver.com', tier: 'Admin Master', usage: 389, status: true, date: '2023.11.20' },
+      { id: 4, name: '최지우', email: 'jiwoo@kakao.com', tier: 'Free', usage: 12, status: false, date: '2024.03.10' }
+    ];
+
+    let historyLogs = [
+      { id: 101, time: '10:14:22', date: '2024.05.14', query: '청량한 여름 K-Pop 추천해줘', song: 'NEON CITRUS', score: 98, ratingVal: 5, comment: '상큼하고 들을수록 좋네요!' },
+      { id: 102, time: '09:52:05', date: '2024.05.14', query: '비오는 날 듣기 좋은 몽환적인 음악', song: 'Cyber Rain', score: 91, ratingVal: 4, comment: '분위기 최적입니다' },
+      { id: 103, time: '09:20:11', date: '2024.05.14', query: '드라이브 신나는 비트', song: 'Lemon Drop', score: 94, ratingVal: 5, comment: '비트가 매우 신납니다' }
+    ];
+
+    let notificationsList = [
+      { id: 1, title: "새 곡 매칭 데이터 업데이트 완료", detail: "'NEON CITRUS' 매칭률 98% 분석 완료", time: "방금 전", read: false },
+      { id: 2, title: "사용자 피드백 5점 별점 등록", detail: "유저 'music_fan' 님이 코멘트를 남겼습니다.", time: "10분 전", read: false },
+      { id: 3, title: "AI 모델 임계값 재설정됨", detail: "추천 정밀도 75% 기준이 적용되었습니다.", time: "1시간 전", read: false }
+    ];
+
+    let tracks = JSON.parse(localStorage.getItem('beat_ai_tracks')) || INITIAL_TRACKS;
+    let selectedTrackIds = new Set();
+    let currentPlayingTrack = null;
+    let audioCtx = null;
+    let synthOscillator = null;
+    let synthGain = null;
+    let activeRatingValue = 5;
+    let dashboardPeriod = 'today';
+
+    function switchView(mode) {
+      const mobileContainer = document.getElementById('mobileAppContainer');
+      const adminContainer = document.getElementById('adminDashboardContainer');
+      const btnMobile = document.getElementById('viewBtnMobile');
+      const btnAdmin = document.getElementById('viewBtnAdmin');
+      const btnSplit = document.getElementById('viewBtnSplit');
+
+      [btnMobile, btnAdmin, btnSplit].forEach(btn => {
+        if (btn) btn.className = 'flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-brand-muted hover:text-white';
+      });
+
+      if (mode === 'admin') {
+        mobileContainer.classList.add('hidden');
+        adminContainer.classList.remove('hidden');
+        btnAdmin.className = 'flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-black bg-brand-neon';
+        renderTracksTable();
+        drawCanvasChart();
+      } else if (mode === 'mobile') {
+        mobileContainer.classList.remove('hidden');
+        adminContainer.classList.add('hidden');
+        btnMobile.className = 'flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-black bg-brand-neon';
+      } else if (mode === 'split') {
+        mobileContainer.classList.remove('hidden');
+        adminContainer.classList.remove('hidden');
+        btnSplit.className = 'flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all text-black bg-brand-neon';
+        renderTracksTable();
+        drawCanvasChart();
+      }
+    }
+
+    function switchAdminTab(tabName) {
+      const tabs = ['dashboard', 'music', 'tags', 'users', 'history', 'settings'];
+      tabs.forEach(t => {
+        const sec = document.getElementById(`sec${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        const navBtn = document.getElementById(`navTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (sec) sec.classList.add('hidden');
+        if (navBtn) navBtn.className = 'w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium text-brand-muted hover:text-white hover:bg-white/5 transition-all';
+      });
+
+      const activeSec = document.getElementById(`sec${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`);
+      const activeNav = document.getElementById(`navTab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}`);
+
+      if (activeSec) activeSec.classList.remove('hidden');
+      if (activeNav) activeNav.className = 'w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-extrabold text-brand-black bg-brand-neon shadow-lg shadow-brand-neon/10 transition-all';
+
+      if (tabName === 'dashboard') { drawCanvasChart(); renderDashboardData(); }
+      else if (tabName === 'music') renderTracksTable();
+      else if (tabName === 'tags') renderTagsList();
+      else if (tabName === 'users') renderUsersList();
+      else if (tabName === 'history') renderHistoryList();
+    }
+
+    function toggleNotifications() {
+      const drop = document.getElementById('notificationDropdown');
+      drop.classList.toggle('hidden');
+      renderNotifications();
+    }
+
+    function renderNotifications(filterMode = 'all') {
+      const list = document.getElementById('notificationList');
+      const unreadBadge = document.getElementById('unreadBadge');
+      list.innerHTML = '';
+
+      let items = notificationsList;
+      if (filterMode === 'unread') items = items.filter(n => !n.read);
+
+      const unreadCount = notificationsList.filter(n => !n.read).length;
+      unreadBadge.innerText = unreadCount;
+      unreadBadge.style.display = unreadCount > 0 ? 'flex' : 'none';
+
+      if (items.length === 0) {
+        list.innerHTML = `<div class="p-4 text-center text-brand-muted">알림이 없습니다.</div>`;
+        return;
+      }
+
+      items.forEach(n => {
+        const div = document.createElement('div');
+        div.className = `p-3 hover:bg-white/5 cursor-pointer transition flex justify-between items-start ${!n.read ? 'bg-brand-neon/5 border-l-2 border-brand-neon' : ''}`;
+        div.onclick = () => { n.read = true; renderNotifications(filterMode); };
+        div.innerHTML = `
+          <div>
+            <div class="text-white font-semibold">${n.title}</div>
+            <div class="text-brand-subtle text-[11px] mt-0.5">${n.time} · ${n.detail}</div>
+          </div>
+          <button onclick="event.stopPropagation(); deleteNotification(${n.id})" class="text-brand-subtle hover:text-red-400 p-1"><i class="fa-solid fa-xmark"></i></button>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function filterNotifications(mode) { renderNotifications(mode); }
+    function markAllNotificationsRead() { notificationsList.forEach(n => n.read = true); renderNotifications(); showToast("모든 알림을 읽음 처리했습니다."); }
+    function clearAllNotifications() { notificationsList = []; renderNotifications(); showToast("알림을 초기화했습니다."); }
+    function deleteNotification(id) { notificationsList = notificationsList.filter(n => n.id !== id); renderNotifications(); }
+
+    function openProfileModal() { document.getElementById('profileModal').classList.remove('hidden'); }
+    function saveProfileSettings() { closeModal('profileModal'); showToast("프로필 및 비밀번호가 업데이트되었습니다."); }
+    function simulateLogout() { closeModal('profileModal'); showToast("성공적으로 로그아웃 되었습니다."); }
+
+    function setDashboardPeriod(period) {
+      dashboardPeriod = period;
+      ['Today', '7d', '30d', 'All'].forEach(p => {
+        const btn = document.getElementById(`periodBtn${p}`);
+        if (btn) btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-brand-muted hover:text-white transition';
+      });
+      document.getElementById(`periodBtn${period.charAt(0).toUpperCase() + period.slice(1)}`).className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-brand-neon text-brand-black transition';
+      
+      const reqMap = { today: '1,482회', '7d': '12,940회', '30d': '48,210회', all: '184,200회' };
+      document.getElementById('kpiRecommendCount').innerText = reqMap[period];
+      document.getElementById('chartSubTitle').innerText = `${period.toUpperCase()} 데이터 기준 그래프`;
+      drawCanvasChart();
+    }
+
+    function drawCanvasChart() {
+      const canvas = document.getElementById('analyticsChart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.lineWidth = 1;
+      for (let i = 1; i <= 4; i++) {
+        const y = (h / 5) * i;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+
+      let dataSet = [h * 0.7, h * 0.5, h * 0.8, h * 0.3, h * 0.4, h * 0.15];
+      if (dashboardPeriod === '7d') dataSet = [h * 0.6, h * 0.4, h * 0.5, h * 0.2, h * 0.3, h * 0.25];
+      else if (dashboardPeriod === '30d') dataSet = [h * 0.8, h * 0.6, h * 0.4, h * 0.5, h * 0.2, h * 0.1];
+
+      const points = [
+        { x: 0, y: dataSet[0] },
+        { x: w * 0.2, y: dataSet[1] },
+        { x: w * 0.4, y: dataSet[2] },
+        { x: w * 0.6, y: dataSet[3] },
+        { x: w * 0.8, y: dataSet[4] },
+        { x: w, y: dataSet[5] }
+      ];
+
+      const gradient = ctx.createLinearGradient(0, 0, 0, h);
+      gradient.addColorStop(0, 'rgba(226, 255, 0, 0.35)');
+      gradient.addColorStop(1, 'rgba(226, 255, 0, 0.0)');
+
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+      ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+      ctx.strokeStyle = '#E2FF00';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      points.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#0D0E12';
+        ctx.fill();
+        ctx.strokeStyle = '#E2FF00';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      });
+    }
+
+    function renderDashboardData() {
+      document.getElementById('kpiTotalTracks').innerText = `${tracks.length}곡`;
+      const topSongsContainer = document.getElementById('topSongsList');
+      topSongsContainer.innerHTML = '';
+
+      const top5 = [...tracks].sort((a,b) => b.matchRate - a.matchRate).slice(0, 4);
+      top5.forEach((track, idx) => {
+        const item = document.createElement('div');
+        item.className = 'flex items-center justify-between p-2.5 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition';
+        item.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="w-5 text-center font-extrabold text-brand-neon text-xs">0${idx + 1}</span>
+            <img src="${track.cover}" class="w-8 h-8 rounded-lg object-cover">
+            <div class="overflow-hidden">
+              <div class="font-bold text-white text-xs truncate">${track.title}</div>
+              <div class="text-[10px] text-brand-muted truncate">${track.artist}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-brand-neon">${track.matchRate}%</span>
+            <button onclick="previewTrackAudio(${track.id})" class="p-1.5 bg-brand-neon text-brand-black rounded-lg text-xs hover:scale-105"><i class="fa-solid fa-play"></i></button>
+          </div>
+        `;
+        topSongsContainer.appendChild(item);
+      });
+
+      renderActivityFeed('all');
+    }
+
+    function renderActivityFeed(type = 'all') {
+      const stream = document.getElementById('activityStream');
+      const logs = [
+        { type: 'match', text: "유저 '김민준'이 <b>NEON CITRUS</b> 매칭 완료", time: "방금 전" },
+        { type: 'admin', text: "AI 엔진 가중치 <b>#여름 (1.8x)</b> 조절됨", time: "2분 전" },
+        { type: 'match', text: "신규 추천 질의 <b>'드라이브 비트'</b> 성공적 응답", time: "5분 전" }
+      ];
+      const filtered = type === 'all' ? logs : logs.filter(l => l.type === type);
+      stream.innerHTML = filtered.map(l => `
+        <div class="p-2 rounded bg-white/5 flex items-center justify-between"><span class="text-white">${l.text}</span><span class="text-brand-subtle text-[10px]">${l.time}</span></div>
+      `).join('');
+    }
+
+    function filterActivityLog(type) { renderActivityFeed(type); }
+    function refreshDashboardData() { drawCanvasChart(); renderDashboardData(); showToast("대시보드 데이터를 최신화했습니다."); }
+
+    function renderTracksTable() {
+      const tbody = document.getElementById('tracksTableBody');
+      const searchVal = document.getElementById('tableSearchInput').value.toLowerCase();
+      const genreVal = document.getElementById('genreFilterSelect').value;
+      const sortVal = document.getElementById('sortSelect').value;
+
+      let filtered = tracks.filter(t => {
+        const matchesSearch = t.title.toLowerCase().includes(searchVal) || t.artist.toLowerCase().includes(searchVal);
+        const matchesGenre = genreVal === 'ALL' || t.genre === genreVal;
+        return matchesSearch && matchesGenre;
+      });
+
+      if (sortVal === 'matchDesc') filtered.sort((a, b) => b.matchRate - a.matchRate);
+      else if (sortVal === 'titleAsc') filtered.sort((a, b) => a.title.localeCompare(b.title));
+      else if (sortVal === 'artistAsc') filtered.sort((a, b) => a.artist.localeCompare(b.artist));
+      else filtered.sort((a, b) => b.id - a.id);
+
+      tbody.innerHTML = '';
+      filtered.forEach(track => {
+        const isSelected = selectedTrackIds.has(track.id);
+        const tr = document.createElement('tr');
+        tr.className = `border-b border-white/5 hover:bg-white/5 transition ${isSelected ? 'bg-brand-neon/5' : ''}`;
+
+        const tagsHtml = track.tags.map(tag => `<span class="px-1.5 py-0.5 bg-white/5 rounded text-brand-neon text-[10px] font-semibold">${tag}</span>`).join(' ');
+
+        tr.innerHTML = `
+          <td class="p-3.5 text-center">
+            <input type="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleSelectTrack(${track.id})" class="rounded accent-brand-neon cursor-pointer">
+          </td>
+          <td class="p-3.5">
+            <img src="${track.cover}" class="w-9 h-9 rounded-lg object-cover border border-white/10">
+          </td>
+          <td class="p-3.5 font-bold text-white">${track.title}</td>
+          <td class="p-3.5 text-brand-muted">${track.artist}</td>
+          <td class="p-3.5 text-brand-muted">${track.genre}</td>
+          <td class="p-3.5 flex flex-wrap gap-1">${tagsHtml}</td>
+          <td class="p-3.5 font-bold text-brand-accent">${track.matchRate}%</td>
+          <td class="p-3.5 text-brand-subtle">${track.date}</td>
+          <td class="p-3.5">
+            <button onclick="toggleSingleStatus(${track.id})" class="px-2 py-1 rounded-md text-[10px] font-bold border transition ${track.status ? 'bg-brand-success/15 border-brand-success text-brand-success' : 'bg-brand-accent/15 border-brand-accent text-brand-accent'}">
+              ${track.status ? '활성화' : '비활성화'}
+            </button>
+          </td>
+          <td class="p-3.5 text-center">
+            <div class="flex items-center justify-center gap-2">
+              <button onclick="previewTrackAudio(${track.id})" class="text-brand-neon hover:scale-110 transition" title="미리듣기"><i class="fa-solid fa-play"></i></button>
+              <button onclick="openEditModal(${track.id})" class="text-brand-muted hover:text-white transition"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button onclick="confirmSingleDelete(${track.id})" class="text-brand-subtle hover:text-brand-accent transition"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('counterBadge').innerText = `총 ${tracks.length}개 중 ${filtered.length}개 표시`;
+      document.getElementById('navTrackBadge').innerText = tracks.length;
+      updateBatchBar();
+    }
+
+    function handleSearchInput() { renderTracksTable(); }
+    function applyTableFilters() { renderTracksTable(); }
+
+    function toggleSelectTrack(id) {
+      if (selectedTrackIds.has(id)) selectedTrackIds.delete(id);
+      else selectedTrackIds.add(id);
+      renderTracksTable();
+    }
+
+    function toggleSelectAll(masterCheckbox) {
+      if (masterCheckbox.checked) tracks.forEach(t => selectedTrackIds.add(t.id));
+      else selectedTrackIds.clear();
+      renderTracksTable();
+    }
+
+    function updateBatchBar() {
+      const batchBar = document.getElementById('batchBar');
+      const countText = document.getElementById('selectedCountText');
+      if (selectedTrackIds.size > 0) {
+        batchBar.classList.remove('hidden');
+        countText.innerText = selectedTrackIds.size;
+      } else {
+        batchBar.classList.add('hidden');
+      }
+    }
+
+    function batchToggleStatus(status) {
+      tracks.forEach(t => { if (selectedTrackIds.has(t.id)) t.status = status; });
+      saveAndRefresh();
+      showToast(`${selectedTrackIds.size}개 음원 상태가 업데이트되었습니다.`);
+    }
+
+    function confirmBatchDelete() {
+      document.getElementById('deleteModalMessage').innerText = `선택한 ${selectedTrackIds.size}개 곡을 일괄 삭제하시겠습니까?`;
+      document.getElementById('confirmDeleteBtn').onclick = function() {
+        tracks = tracks.filter(t => !selectedTrackIds.has(t.id));
+        selectedTrackIds.clear();
+        closeModal('deleteConfirmModal');
+        saveAndRefresh();
+        showToast('선택한 곡이 삭제되었습니다.');
+      };
+      document.getElementById('deleteConfirmModal').classList.remove('hidden');
+    }
+
+    function confirmSingleDelete(id) {
+      const track = tracks.find(t => t.id === id);
+      document.getElementById('deleteModalMessage').innerText = `'${track.title}' 곡을 삭제하시겠습니까?`;
+      document.getElementById('confirmDeleteBtn').onclick = function() {
+        tracks = tracks.filter(t => t.id !== id);
+        closeModal('deleteConfirmModal');
+        saveAndRefresh();
+        showToast('음원이 삭제되었습니다.');
+      };
+      document.getElementById('deleteConfirmModal').classList.remove('hidden');
+    }
+
+    function toggleSingleStatus(id) {
+      const track = tracks.find(t => t.id === id);
+      if (track) {
+        track.status = !track.status;
+        saveAndRefresh();
+        showToast(`${track.title} 활성화 상태가 변경되었습니다.`);
+      }
+    }
+
+    function exportToCSV() {
+      let csv = 'ID,곡명,아티스트,장르,태그,매칭률,등록일,상태\n';
+      tracks.forEach(t => {
+        csv += `${t.id},"${t.title}","${t.artist}","${t.genre}","${t.tags.join(' ')}",${t.matchRate}%,${t.date},${t.status ? '활성' : '비활성'}\n`;
+      });
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `BEAT_AI_Music_DB_${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('엑셀 CSV 내보내기가 완료되었습니다.');
+    }
+
+    function renderTagsList() {
+      const container = document.getElementById('tagWeightList');
+      const search = document.getElementById('tagSearchInput') ? document.getElementById('tagSearchInput').value.toLowerCase() : '';
+      container.innerHTML = '';
+
+      const filtered = tagsList.filter(t => t.name.toLowerCase().includes(search));
+      filtered.forEach(tag => {
+        const item = document.createElement('div');
+        item.className = 'p-3.5 bg-brand-black/40 rounded-xl border border-white/5 space-y-2';
+        item.innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-brand-neon text-sm">${tag.name}</span>
+            <div class="flex items-center gap-3">
+              <span class="text-brand-subtle">추천 사용: ${tag.count}회</span>
+              <button onclick="deleteTag(${tag.id})" class="text-brand-subtle hover:text-red-400"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <input type="range" min="0.1" max="2.0" step="0.1" value="${tag.weight}" onchange="updateTagWeight(${tag.id}, this.value)" class="flex-1">
+            <span id="weightLabel-${tag.id}" class="w-12 text-right font-bold text-white">${tag.weight}x</span>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+      document.getElementById('navTagBadge').innerText = tagsList.length;
+    }
+
+    function updateTagWeight(id, val) {
+      const tag = tagsList.find(t => t.id === id);
+      if (tag) {
+        tag.weight = parseFloat(val);
+        document.getElementById(`weightLabel-${id}`).innerText = `${val}x`;
+        showToast(`${tag.name} 가중치가 ${val}x로 반영되었습니다.`);
+      }
+    }
+
+    function handleAddNewTag(e) {
+      e.preventDefault();
+      const name = document.getElementById('newTagName').value;
+      const weight = parseFloat(document.getElementById('newTagWeight').value);
+
+      tagsList.push({ id: Date.now(), name, weight, count: 0 });
+      renderTagsList();
+      showToast(`신규 태그 '${name}'가 추가되었습니다.`);
+      document.getElementById('newTagName').value = '';
+    }
+
+    function deleteTag(id) {
+      tagsList = tagsList.filter(t => t.id !== id);
+      renderTagsList();
+      showToast("태그가 삭제되었습니다.");
+    }
+
+    function renderUsersList() {
+      const tbody = document.getElementById('usersTableBody');
+      const query = document.getElementById('userSearchInput') ? document.getElementById('userSearchInput').value.toLowerCase() : '';
+      tbody.innerHTML = '';
+
+      const filtered = usersList.filter(u => u.name.toLowerCase().includes(query) || u.email.toLowerCase().includes(query));
+
+      filtered.forEach(user => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-white/5 hover:bg-white/5 transition';
+        tr.innerHTML = `
+          <td class="p-3.5 font-bold text-white">${user.name}</td>
+          <td class="p-3.5 text-brand-muted">${user.email}</td>
+          <td class="p-3.5">
+            <select onchange="updateUserTier(${user.id}, this.value)" class="bg-brand-card border border-white/10 text-brand-neon rounded px-2 py-1 text-[11px] font-bold">
+              <option value="Free" ${user.tier === 'Free' ? 'selected' : ''}>Free</option>
+              <option value="Premium Partner" ${user.tier === 'Premium Partner' ? 'selected' : ''}>Premium Partner</option>
+              <option value="Admin Master" ${user.tier === 'Admin Master' ? 'selected' : ''}>Admin Master</option>
+            </select>
+          </td>
+          <td class="p-3.5 text-white font-semibold">${user.usage}회</td>
+          <td class="p-3.5 text-brand-subtle">${user.date || '2024.01.01'}</td>
+          <td class="p-3.5">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${user.status ? 'bg-brand-success/15 text-brand-success border border-brand-success/30' : 'bg-red-500/15 text-red-400 border border-red-500/30'}">
+              ${user.status ? '정상' : '정지'}
+            </span>
+          </td>
+          <td class="p-3.5 text-center">
+            <button onclick="toggleUserStatus(${user.id})" class="px-2.5 py-1 bg-white/5 hover:bg-white/10 rounded text-[10px] font-bold transition">
+              ${user.status ? '계정 정지' : '정지 해제'}
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      document.getElementById('userCountText').innerText = `총 ${usersList.length}명`;
+      document.getElementById('navUserBadge').innerText = usersList.length;
+    }
+
+    function toggleUserStatus(id) {
+      const user = usersList.find(u => u.id === id);
+      if (user) {
+        user.status = !user.status;
+        renderUsersList();
+        showToast(`${user.name} 님의 계정 상태가 변경되었습니다.`);
+      }
+    }
+
+    function updateUserTier(id, tier) {
+      const user = usersList.find(u => u.id === id);
+      if (user) {
+        user.tier = tier;
+        showToast(`${user.name} 님의 등급이 ${tier}로 변경되었습니다.`);
+      }
+    }
+
+    function filterUsers() { renderUsersList(); }
+    function openAddUserModal() { document.getElementById('userModal').classList.remove('hidden'); }
+
+    function handleSaveUser(e) {
+      e.preventDefault();
+      const name = document.getElementById('newUserName').value;
+      const email = document.getElementById('newUserEmail').value;
+      const tier = document.getElementById('newUserTier').value;
+
+      usersList.unshift({
+        id: Date.now(),
+        name,
+        email,
+        tier,
+        usage: 0,
+        status: true,
+        date: new Date().toISOString().split('T')[0].replace(/-/g, '.')
+      });
+
+      closeModal('userModal');
+      renderUsersList();
+      showToast('신규 유저가 추가되었습니다.');
+    }
+
+    function renderHistoryList() {
+      const tbody = document.getElementById('historyTableBody');
+      const search = document.getElementById('historySearchInput') ? document.getElementById('historySearchInput').value.toLowerCase() : '';
+      const ratingFilter = document.getElementById('historyRatingFilter') ? document.getElementById('historyRatingFilter').value : 'ALL';
+      tbody.innerHTML = '';
+
+      let filtered = historyLogs.filter(h => h.query.toLowerCase().includes(search) || h.song.toLowerCase().includes(search));
+      if (ratingFilter === '5') filtered = filtered.filter(h => h.ratingVal === 5);
+      else if (ratingFilter === '4') filtered = filtered.filter(h => h.ratingVal >= 4);
+
+      filtered.forEach(log => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-white/5 hover:bg-white/5 transition';
+        tr.innerHTML = `
+          <td class="p-3.5 text-brand-subtle">${log.time}</td>
+          <td class="p-3.5 text-white font-semibold">${log.query}</td>
+          <td class="p-3.5 text-brand-neon font-bold">${log.song}</td>
+          <td class="p-3.5 font-bold text-brand-accent">${log.score}%</td>
+          <td class="p-3.5 text-amber-400">${'⭐'.repeat(log.ratingVal || 5)}</td>
+          <td class="p-3.5 text-brand-muted">${log.comment}</td>
+          <td class="p-3.5 text-center">
+            <button onclick="deleteHistoryItem(${log.id})" class="text-brand-subtle hover:text-red-400"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function clearAllHistory() {
+      document.getElementById('deleteModalMessage').innerText = "모든 추천 이력을 삭제하시겠습니까?";
+      document.getElementById('confirmDeleteBtn').onclick = function() {
+        historyLogs = [];
+        closeModal('deleteConfirmModal');
+        renderHistoryList();
+        showToast("모든 이력이 삭제되었습니다.");
+      };
+      document.getElementById('deleteConfirmModal').classList.remove('hidden');
+    }
+
+    function deleteHistoryItem(id) {
+      historyLogs = historyLogs.filter(h => h.id !== id);
+      renderHistoryList();
+      showToast("이력 항목이 삭제되었습니다.");
+    }
+
+    function startReindexProcess() {
+      const btn = document.getElementById('reindexBtn');
+      const container = document.getElementById('reindexProgressContainer');
+      const bar = document.getElementById('reindexProgressBar');
+      const percent = document.getElementById('reindexPercent');
+
+      btn.disabled = true;
+      container.classList.remove('hidden');
+      
+      let p = 0;
+      const interval = setInterval(() => {
+        p += 10;
+        bar.style.width = p + '%';
+        percent.innerText = p + '%';
+
+        if (p >= 100) {
+          clearInterval(interval);
+          btn.disabled = false;
+          showToast('벡터 색인 및 가중치 매칭 동기화가 완료되었습니다.');
+        }
+      }, 150);
+    }
+
+    function openAddModal() {
+      document.getElementById('modalHeaderTitle').innerText = '새 곡 추가';
+      document.getElementById('editTrackId').value = '';
+      document.getElementById('trackForm').reset();
+      document.getElementById('trackModal').classList.remove('hidden');
+    }
+
+    function openEditModal(id) {
+      const track = tracks.find(t => t.id === id);
+      if (!track) return;
+
+      document.getElementById('modalHeaderTitle').innerText = '음악 데이터 수정';
+      document.getElementById('editTrackId').value = track.id;
+      document.getElementById('inputTitle').value = track.title;
+      document.getElementById('inputArtist').value = track.artist;
+      document.getElementById('inputGenre').value = track.genre;
+      document.getElementById('inputMatchRate').value = track.matchRate;
+      document.getElementById('inputTags').value = track.tags.join(', ');
+      document.getElementById('inputCover').value = track.cover;
+
+      document.getElementById('trackModal').classList.remove('hidden');
+    }
+
+    function handleSaveTrack(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editTrackId').value;
+      const title = document.getElementById('inputTitle').value;
+      const artist = document.getElementById('inputArtist').value;
+      const genre = document.getElementById('inputGenre').value;
+      const matchRate = parseInt(document.getElementById('inputMatchRate').value) || 90;
+      const rawTags = document.getElementById('inputTags').value;
+      const cover = document.getElementById('inputCover').value || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&auto=format&fit=crop&q=80';
+
+      const tags = rawTags.split(',').map(t => {
+        let trimmed = t.trim();
+        return trimmed.startsWith('#') ? trimmed : '#' + trimmed;
+      }).filter(t => t.length > 1);
+
+      if (editId) {
+        const track = tracks.find(t => t.id === parseInt(editId));
+        if (track) {
+          track.title = title;
+          track.artist = artist;
+          track.genre = genre;
+          track.matchRate = matchRate;
+          track.tags = tags;
+          track.cover = cover;
+        }
+      } else {
+        const newTrack = {
+          id: Date.now(),
+          title,
+          artist,
+          genre,
+          tags,
+          matchRate,
+          date: new Date().toISOString().split('T')[0].replace(/-/g, '.'),
+          status: true,
+          cover,
+          synthFreq: 440 + Math.floor(Math.random() * 200)
+        };
+        tracks.unshift(newTrack);
+      }
+
+      closeModal('trackModal');
+      saveAndRefresh();
+      showToast('음악 데이터가 저장되었습니다.');
+    }
+
+    function closeModal(modalId) { document.getElementById(modalId).classList.add('hidden'); }
+
+    function saveAndRefresh() {
+      localStorage.setItem('beat_ai_tracks', JSON.stringify(tracks));
+      renderTracksTable();
+      renderDashboardData();
+    }
+
+    const INITIAL_CHAT = [
+      { sender: 'user', text: '청량하고 신나는 여름 K-Pop 추천해줘!' },
+      { sender: 'ai', text: 'NEON CITRUS - NEX-T를 추천합니다! 청량한 베이스와 상큼한 보컬이 특징이에요. 매칭률 98%', trackId: 1 }
+    ];
+
+    function renderChatStream() {
+      const chatContainer = document.getElementById('chatStream');
+      chatContainer.innerHTML = '';
+
+      INITIAL_CHAT.forEach(msg => {
+        if (msg.sender === 'user') {
+          chatContainer.appendChild(createUserBubble(msg.text));
+        } else {
+          const track = tracks.find(t => t.id === msg.trackId);
+          chatContainer.appendChild(createAiBubble(msg.text, track));
+        }
+      });
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function createUserBubble(text) {
+      const div = document.createElement('div');
+      div.className = 'flex justify-end';
+      div.innerHTML = `<div class="max-w-[280px] p-3 rounded-2xl bg-brand-accent/15 border border-brand-accent/30 text-white leading-relaxed text-xs">${text}</div>`;
+      return div;
+    }
+
+    function createAiBubble(text, track = null) {
+      const div = document.createElement('div');
+      div.className = 'flex justify-start';
+
+      let trackCardHtml = '';
+      if (track) {
+        trackCardHtml = `
+          <div class="mt-2.5 p-2.5 bg-white/5 border border-white/10 rounded-xl space-y-2">
+            <div class="flex items-center gap-2.5">
+              <img src="${track.cover}" class="w-11 h-11 rounded-lg object-cover">
+              <div class="overflow-hidden">
+                <div class="font-bold text-white text-xs truncate">${track.title}</div>
+                <div class="text-brand-muted text-[11px] truncate">${track.artist}</div>
+              </div>
+            </div>
+            
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <button onclick="openRatingModal(${track.id})" class="px-2 py-1 bg-brand-neon/10 hover:bg-brand-neon/20 border border-brand-neon rounded-lg text-brand-neon font-bold text-[10px] transition">⭐ 별점 추가</button>
+              <button onclick="openCommentModal(${track.id})" class="px-2 py-1 bg-brand-neon/10 hover:bg-brand-neon/20 border border-brand-neon rounded-lg text-brand-neon font-bold text-[10px] transition">💬 코멘트</button>
+              <button onclick="previewTrackAudio(${track.id})" class="px-2 py-1 bg-brand-neon hover:bg-yellow-300 rounded-lg text-brand-black font-extrabold text-[10px] transition">▶ 미리듣기</button>
+            </div>
+          </div>
+        `;
+      }
+
+      div.innerHTML = `
+        <div class="max-w-[300px] p-3 rounded-2xl bg-white/5 border border-brand-neon text-white space-y-1 shadow-lg">
+          <div class="flex items-center gap-1.5 text-brand-neon font-bold text-[11px]">
+            <i class="fa-solid fa-robot"></i>
+            <span>AI 음악 큐레이터</span>
+          </div>
+          <div class="leading-relaxed text-xs">${text}</div>
+          ${trackCardHtml}
+        </div>
+      `;
+      return div;
+    }
+
+    function sendQuickPrompt(promptText) {
+      document.getElementById('userInput').value = promptText;
+      handleUserSubmit(new Event('submit'));
+    }
+
+    function handleUserSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('userInput');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const chatContainer = document.getElementById('chatStream');
+      chatContainer.appendChild(createUserBubble(val));
+      input.value = '';
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+
+      setTimeout(() => {
+        let matchedTrack = tracks[Math.floor(Math.random() * tracks.length)];
+        if (val.includes('여름') || val.includes('K-Pop')) matchedTrack = tracks.find(t => t.genre === 'K-Pop') || tracks[0];
+        else if (val.includes('비') || val.includes('R&B')) matchedTrack = tracks.find(t => t.genre === 'R&B' || t.genre === '발라드') || tracks[2];
+
+        const responseText = `'${val}' 분위기에 딱 맞는 AI 추천 곡입니다! ${matchedTrack.title} - ${matchedTrack.artist} (매칭률 ${matchedTrack.matchRate}%)`;
+        chatContainer.appendChild(createAiBubble(responseText, matchedTrack));
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        historyLogs.unshift({
+          id: Date.now(),
+          time: new Date().toTimeString().substring(0, 8),
+          date: new Date().toISOString().split('T')[0].replace(/-/g, '.'),
+          query: val,
+          song: matchedTrack.title,
+          score: matchedTrack.matchRate,
+          ratingVal: 5,
+          comment: '자동 AI 추천'
+        });
+      }, 600);
+    }
+
+    function openRatingModal(id) {
+      const track = tracks.find(t => t.id === id);
+      if (track) document.getElementById('ratingTrackName').innerText = track.title;
+      setStarRating(5);
+      document.getElementById('ratingModal').classList.remove('hidden');
+    }
+
+    function setStarRating(val) {
+      activeRatingValue = val;
+      const stars = document.querySelectorAll('#starContainer i');
+      stars.forEach((star, index) => {
+        star.className = index < val ? 'fa-solid fa-star hover:scale-125 transition text-amber-400' : 'fa-regular fa-star hover:scale-125 transition text-brand-muted';
+      });
+    }
+
+    function confirmRating() {
+      closeModal('ratingModal');
+      showToast(`⭐ ${activeRatingValue}점 별점이 저장되었습니다.`);
+    }
+
+    function openCommentModal(id) {
+      document.getElementById('commentModal').classList.remove('hidden');
+    }
+
+    function saveComment() {
+      const text = document.getElementById('commentText').value;
+      if (text) {
+        closeModal('commentModal');
+        showToast('감상평 코멘트가 등록되었습니다.');
+        document.getElementById('commentText').value = '';
+      }
+    }
+
+    function playSyntheticSound(track) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      stopSyntheticSound();
+
+      const now = audioCtx.currentTime;
+      synthGain = audioCtx.createGain();
+      synthGain.gain.setValueAtTime(0.15, now);
+      synthGain.connect(audioCtx.destination);
+
+      const baseFreq = track.synthFreq || 440;
+      const notes = [baseFreq, baseFreq * 1.25, baseFreq * 1.5, baseFreq * 1.875];
+
+      synthOscillator = audioCtx.createOscillator();
+      synthOscillator.type = track.genre === '댄스' ? 'sawtooth' : 'sine';
+      
+      let step = 0;
+      synthOscillator.frequency.setValueAtTime(notes[0], now);
+
+      window.synthInterval = setInterval(() => {
+        if (!synthOscillator || !audioCtx) return;
+        step = (step + 1) % notes.length;
+        if (synthOscillator.frequency) {
+          synthOscillator.frequency.setValueAtTime(notes[step], audioCtx.currentTime);
+        }
+      }, 200);
+
+      synthOscillator.connect(synthGain);
+      synthOscillator.start();
+    }
+
+    function stopSyntheticSound() {
+      if (window.synthInterval) {
+        clearInterval(window.synthInterval);
+        window.synthInterval = null;
+      }
+      if (synthOscillator) {
+        try { synthOscillator.stop(); synthOscillator.disconnect(); } catch (e) {}
+        synthOscillator = null;
+      }
+    }
+
+    function previewTrackAudio(id) {
+      const track = tracks.find(t => t.id === id);
+      if (!track) return;
+
+      currentPlayingTrack = track;
+      document.getElementById('playerTitle').innerText = track.title;
+      document.getElementById('playerArtist').innerText = track.artist;
+      document.getElementById('playerCover').src = track.cover;
+
+      document.getElementById('globalPlayer').classList.remove('hidden');
+      document.getElementById('playerToggleBtn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+      playSyntheticSound(track);
+    }
+
+    function toggleAudioPreview() {
+      if (synthOscillator) {
+        stopSyntheticSound();
+        document.getElementById('playerToggleBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
+      } else if (currentPlayingTrack) {
+        playSyntheticSound(currentPlayingTrack);
+        document.getElementById('playerToggleBtn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+      }
+    }
+
+    function stopAudioPreview() {
+      stopSyntheticSound();
+      document.getElementById('globalPlayer').classList.add('hidden');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+      }, 2500);
+    }
+
+    setInterval(() => {
+      const clock = document.getElementById('liveClock');
+      if (clock) clock.innerText = new Date().toTimeString().substring(0, 5);
+    }, 1000);
+
+    window.onload = function() {
+      renderDashboardData();
+      renderTracksTable();
+      renderChatStream();
+      renderNotifications();
+      drawCanvasChart();
+
+      window.addEventListener('resize', () => {
+        drawCanvasChart();
+      });
+    };
+  </script>
+</body>
+</html>
